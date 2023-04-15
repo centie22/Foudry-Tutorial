@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
+import "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+
 contract miniWallet{
 address admin;
 bool public savingActive;
+address CELO;
 
 struct wallet {
     address walletOwner;
@@ -20,15 +23,16 @@ modifier adminRestricted() {
 
 event saved(uint amount, uint savningDuration, string message);
 event saveingUpdated(uint amount, string message);
-constructor (){
+constructor (address _celo){
     admin = msg.sender;
+    CELO = _celo;
 }
 
 function save (uint _amount, uint savingDurationInWeeks) external payable{
     require(msg.sender != address(0), "zero address can't call function");
     require (savingActive == true, "Saving inactive");
     require(_amount > 0, "Can't save zero ether");
-    require ((msg.sender).balance >= _amount, "Current ether balance less than _amount");
+    require (CELO.balanceOf(msg.sender) >= _amount, "Current ether balance less than _amount");
     wallet storage Wallet = savingWallet[msg.sender];
     Wallet.walletOwner = msg.sender;
     Wallet.walletBalance += _amount;
