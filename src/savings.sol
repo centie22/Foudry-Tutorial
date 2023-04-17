@@ -33,6 +33,7 @@ function save (uint _amount, uint savingDurationInWeeks) external {
     require(msg.sender != address(0), "zero address can't call function");
     require (savingActive == true, "Saving inactive");
     require(_amount > 0, "Can't save zero ether");
+    require(savingDurationInWeeks > 1, "Saving duration must be more than 1 week");
     require (savingToken.balanceOf(msg.sender) >= _amount, "Current token balance less than _amount");
     wallet storage Wallet = savingWallet[msg.sender];
     Wallet.walletOwner = msg.sender;
@@ -43,12 +44,13 @@ function save (uint _amount, uint savingDurationInWeeks) external {
 
 function addSaving (uint _amount) external {
     require(savingActive == true, "Saving inactive");
-    require(_amount > 0, "Can't save zero ether");
-    require(savingToken.balanceOf(msg.sender) >= _amount, "Insufficient token balance.");
     wallet storage Wallet = savingWallet[msg.sender];
+    require(Wallet.walletBalance > 0, "You have not saved before.");
+    require(_amount > 0, "Can't save zero tokens");
+    require(savingToken.balanceOf(msg.sender) >= _amount, "Insufficient token balance.");
     Wallet.walletBalance += _amount;
     uint theBalance = Wallet.walletBalance;
-    emit savingUpdated(theBalance, "Successfully saved more ether.");
+    emit savingUpdated(theBalance, "Successfully saved more tokens.");
 }
 
 function withdraw(uint _amount) external{

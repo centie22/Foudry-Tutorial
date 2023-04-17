@@ -35,23 +35,24 @@ contract CounterTest is Test {
 
     function testTransfer() public {
         vm.startPrank(0x049C780d7fa94AA70194eFC88ee109781eaeE1C2);
-        Token.transfer(Alice, 5000);
-        Token.transfer(Dilshad, 5000);
-        Token.transfer(Shahad, 5000);
+        Token.transfer(Alice, 10000);
+        Token.transfer(Dilshad, 10000);
+        Token.transfer(Shahad, 10000);
         vm.stopPrank();
-        assert(Token.balanceOf(Alice) == 5000);
-         assert(Token.balanceOf(Dilshad) == 5000);
-         assert(Token.balanceOf(Shahad) == 5000);
+        assert(Token.balanceOf(Alice) == 10000);
+         assert(Token.balanceOf(Dilshad) ==10000);
+         assert(Token.balanceOf(Shahad) == 10000);
+
+         // Test the sae() function in our savings.sol contract
+       vm.startPrank(Alice);
+        MiniWallet.save(600, 4);
+        MiniWallet.viewWalletBalance();
+        MiniWallet.addSaving(100);
+        MiniWallet.viewWalletBalance();
+        vm.stopPrank();
     }
 
     // function testSave() public {
-    //    vm.startPrank(address(Alice));
-    //     payable(address(Alice)).transfer(1 ether);
-    //     MiniWallet.save(1, 4);
-    //     MiniWallet.viewWalletBalance();
-    //     MiniWallet.addSaving(2);
-    //     MiniWallet.viewWalletBalance();
-    //     vm.stopPrank();
     // }
 }
 
