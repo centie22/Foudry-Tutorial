@@ -3,14 +3,13 @@ pragma solidity ^0.8.7;
 
 import "forge-std/Test.sol";
 import "../src/savings.sol";
-//import "../src/token.sol";
+import "../src/token.sol";
 contract CounterTest is Test {
     miniWallet public MiniWallet;
     address Alice;
+    token Token = ERC20 (0x865b5751bcDe7E06030670b4d9D27651A25f2fCF);
     uint256 alfajoresFork;
     string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
-
-    receive() external payable {}
     
     function setUp() public {
         alfajoresFork = vm.createFork(CELO_RPC_URL);
@@ -26,6 +25,15 @@ contract CounterTest is Test {
     function testActivateSaving() public {
         MiniWallet.activateSaving(true);
         assertEq(MiniWallet.savingActive(), true);
+    }
+
+    function testTransfer() public {
+        Token.transfer(0xE7818b0e067Bc205B0a2A3055818083D13F11aA8, 5000);
+        Token.transfer(0x085Ee67132Ec4297b85ed5d1b4C65424D36fDA7d, 5000);
+        Token.transfer(0xD06e61faEB0d8a7B0835C0F3C127aED98908a687, 5000);
+        assert(Token.balanceOf(0xE7818b0e067Bc205B0a2A3055818083D13F11aA8) == 5000);
+         assert(Token.balanceOf(0x085Ee67132Ec4297b85ed5d1b4C65424D36fDA7d) == 5000);
+         assert(Token.balanceOf(0xD06e61faEB0d8a7B0835C0F3C127aED98908a687) == 5000);
     }
 
     // function testSave() public {

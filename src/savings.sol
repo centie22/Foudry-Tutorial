@@ -74,5 +74,5 @@ function activateSaving(bool saveStatus) external adminRestricted{
     savingActive = saveStatus;
 }
 
-    receive () external payable {}
+
 }
