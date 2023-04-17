@@ -4,10 +4,13 @@ pragma solidity ^0.8.7;
 import "forge-std/Test.sol";
 import "../src/savings.sol";
 import "../src/token.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 contract CounterTest is Test {
     miniWallet public MiniWallet;
     address Alice;
-    token Token = ERC20 (0x865b5751bcDe7E06030670b4d9D27651A25f2fCF);
+    address Dilshad;
+    address Shahad;
+    IERC20 Token = IERC20 (0x865b5751bcDe7E06030670b4d9D27651A25f2fCF);
     uint256 alfajoresFork;
     string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
     
@@ -16,6 +19,9 @@ contract CounterTest is Test {
         vm.selectFork(alfajoresFork);
         MiniWallet = new miniWallet(ERC20 (0x865b5751bcDe7E06030670b4d9D27651A25f2fCF));
         MiniWallet.activateSaving(true);
+        Alice = 0xE7818b0e067Bc205B0a2A3055818083D13F11aA8;
+        Dilshad = 0x085Ee67132Ec4297b85ed5d1b4C65424D36fDA7d;
+        Shahad = 0xD06e61faEB0d8a7B0835C0F3C127aED98908a687;
     }
 
     function testconfirmActiveFork() public{
@@ -28,12 +34,14 @@ contract CounterTest is Test {
     }
 
     function testTransfer() public {
-        Token.transfer(0xE7818b0e067Bc205B0a2A3055818083D13F11aA8, 5000);
-        Token.transfer(0x085Ee67132Ec4297b85ed5d1b4C65424D36fDA7d, 5000);
-        Token.transfer(0xD06e61faEB0d8a7B0835C0F3C127aED98908a687, 5000);
-        assert(Token.balanceOf(0xE7818b0e067Bc205B0a2A3055818083D13F11aA8) == 5000);
-         assert(Token.balanceOf(0x085Ee67132Ec4297b85ed5d1b4C65424D36fDA7d) == 5000);
-         assert(Token.balanceOf(0xD06e61faEB0d8a7B0835C0F3C127aED98908a687) == 5000);
+        vm.startPrank(0x049C780d7fa94AA70194eFC88ee109781eaeE1C2);
+        Token.transfer(Alice, 5000);
+        Token.transfer(Dilshad, 5000);
+        Token.transfer(Shahad, 5000);
+        vm.stopPrank();
+        assert(Token.balanceOf(Alice) == 5000);
+         assert(Token.balanceOf(Dilshad) == 5000);
+         assert(Token.balanceOf(Shahad) == 5000);
     }
 
     // function testSave() public {
