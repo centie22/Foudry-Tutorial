@@ -38,7 +38,7 @@ function save (uint _amount, uint savingDurationInWeeks) external {
     Wallet.walletOwner = msg.sender;
     Wallet.walletBalance += _amount;
     Wallet.savingDuration = (block.timestamp + savingDurationInWeeks) * 1 weeks;
-    emit saved(_amount, savingDurationInWeeks, "Ether saved successfully");
+    emit saved(_amount, savingDurationInWeeks, "Tokens saved successfully");
 }
 
 function addSaving (uint _amount) external {
@@ -54,6 +54,7 @@ function addSaving (uint _amount) external {
 function withdraw(uint _amount) external{
     wallet storage Wallet = savingWallet[msg.sender];
     require (msg.sender == Wallet.walletOwner, "Caller not wallet owner.");
+    require(Wallet.walletBalance >= _amount, "_amount greater than balance.");
     if (block.timestamp >= Wallet.savingDuration) {
         uint newBalance = Wallet.walletBalance - _amount;
         Wallet.walletBalance = newBalance;
