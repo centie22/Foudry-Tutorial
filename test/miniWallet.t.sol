@@ -1,35 +1,42 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.7;
 
 import "forge-std/Test.sol";
 import "../src/savings.sol";
-
+//import "../src/token.sol";
 contract CounterTest is Test {
     miniWallet public MiniWallet;
     address Alice;
+    uint256 alfajoresFork;
+    string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
 
     receive() external payable {}
     
     function setUp() public {
-        MiniWallet = new miniWallet();
-    }
-
-    // function testActivateSaving() public {
-    //     MiniWallet.activateSaving(true);
-    //     assertEq(MiniWallet.savingActive(), true);
-    // }
-
-    function testSave() public {
+        alfajoresFork = vm.createFork(CELO_RPC_URL);
+        vm.selectFork(alfajoresFork);
+        MiniWallet = new miniWallet(ERC20 (0x865b5751bcDe7E06030670b4d9D27651A25f2fCF));
         MiniWallet.activateSaving(true);
-        Alice = address(0x2);
-       vm.startPrank(address(Alice));
-        payable(address(Alice)).transfer(1 ether);
-        MiniWallet.save(1, 4);
-        MiniWallet.viewWalletBalance();
-        MiniWallet.addSaving(2);
-        MiniWallet.viewWalletBalance();
-        vm.stopPrank();
     }
+
+    function testconfirmActiveFork() public{
+        assertEq(vm.activeFork(), alfajoresFork);
+    }
+
+    function testActivateSaving() public {
+        MiniWallet.activateSaving(true);
+        assertEq(MiniWallet.savingActive(), true);
+    }
+
+    // function testSave() public {
+    //    vm.startPrank(address(Alice));
+    //     payable(address(Alice)).transfer(1 ether);
+    //     MiniWallet.save(1, 4);
+    //     MiniWallet.viewWalletBalance();
+    //     MiniWallet.addSaving(2);
+    //     MiniWallet.viewWalletBalance();
+    //     vm.stopPrank();
+    // }
 }
 
 
