@@ -43,13 +43,39 @@ contract CounterTest is Test {
          assert(Token.balanceOf(Dilshad) ==10000);
          assert(Token.balanceOf(Shahad) == 10000);
 
-         // Test the sae() function in our savings.sol contract
+// Test save(), viewWalletBalance(), and addSaving functions on address Alice
        vm.startPrank(Alice);
         MiniWallet.save(600, 4);
         MiniWallet.viewWalletBalance();
         MiniWallet.addSaving(100);
         MiniWallet.viewWalletBalance();
         vm.stopPrank();
+
+// Test save(), viewWalletBalance(), and addSaving functions on address Dilshad
+        vm.startPrank(Dilshad);
+        MiniWallet.save(300, 2);
+        MiniWallet.viewWalletBalance();
+        MiniWallet.addSaving(300);
+        MiniWallet.viewWalletBalance();
+        vm.stopPrank();
+
+// Attempt to addSaving() without any previous saving on address Shahad. 
+//This test us expected to fail because Shahad hasn't used the saved tokens before.
+        //vm.startPrank(Shahad);
+        // MiniWallet.save(300, 2);
+        // MiniWallet.viewWalletBalance();
+        //MiniWallet.addSaving(300);
+        //MiniWallet.viewWalletBalance();
+       //vm.stopPrank();
+
+// Test withdraw() function with address Dilshad
+    //    vm.startPrank(Dilshad);
+    //    MiniWallet.withdraw(500);
+    //    vm.stopPrank();
+// Test withdraw() function with address Shahad, which hasn't saved any token on savings.sol
+       vm.startPrank(Shahad);
+       MiniWallet.withdraw(200);
+       vm.stopPrank();
     }
 
     // function testSave() public {
@@ -57,11 +83,7 @@ contract CounterTest is Test {
 }
 
 
-/*  . first, I wanna activate saving
-    . second, impersonate addresses Alice and Bob to save, add saving and withdraw
-    . I also wanna deactivate saving as owner and use address of Bob to try to deactivate saving for the test to fail
-    . After deactivating, then I will try to use Alice's address to add saving.
-    . View wallet balance of Alice
+/*  
 
     No, first, I want to fork mainnet then activate it.
     Next get an address that has CELO, the CELO contract address and addresses to impersonate
