@@ -1,12 +1,13 @@
 # Foundry: Deploying And Forking Mainnet With Foundry 
 
 ## Introduction
-In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**.
+In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. I decided to do this since I realized there is almost no tutorial on mainnet/testnet forking with foundry available on the internet.
 Some of us smart contract developers danced the bhangra when Foundry was released. But what is foundry?
 **Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the Hardhat toolkit.
 
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
 
+> This tutorial is focused on those who have some level of experience working with foundry. However, if you are new to foundry, I have listed some resources in the reference section that can help you get familiar with this toolkit.
 ## Table Of Contents 
 * Introduction
 - Prerequisites
