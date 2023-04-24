@@ -18,9 +18,9 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 - [Smart Contract](#smart-contract)
 - [Code](#code)
 - [Testing](#testing)
-    * [Fork Celo alfajores testnet](#fork celo alfajores testnet)
-    * [Test smart contract](#smart contract test)
-    * [Deploy smart contract](#deploy smart contract)
+    * Fork Celo alfajores testnet
+    * Test smart contract
+    * Deploy smart contract
 * [Conclusion](#conclusion)
 * [References](#references)
 
