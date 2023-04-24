@@ -253,6 +253,6 @@ Let us go through the test code:
 There is a whole lot going on in the test script especially in the `setUp()` function, but our focus in this section is on the process/steps to forking the Celo Alfajores testnet. So, let's go through that:
 - Setting up your `.env` file.
 In your `.env` file, set the variable
-```json
+```
 CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]'
 ```
