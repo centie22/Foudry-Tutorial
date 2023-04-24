@@ -24,18 +24,6 @@ contract CounterTest is Test {
         Alice = 0xE7818b0e067Bc205B0a2A3055818083D13F11aA8;
         Dilshad = 0x085Ee67132Ec4297b85ed5d1b4C65424D36fDA7d;
         Shahad = 0xD06e61faEB0d8a7B0835C0F3C127aED98908a687;
-    }
-
-    function testconfirmActiveFork() public{
-        assertEq(vm.activeFork(), alfajoresFork);
-    }
-
-    function testActivateSaving() public {
-        miniWallet.activateSaving(true);
-        assertEq(miniWallet.savingActive(), true);
-    }
-
-    function testTransfer() public {
         address holder = 0x049C780d7fa94AA70194eFC88ee109781eaeE1C2;
         uint HolderBalance = Token.balanceOf(holder); 
         emit log_uint(HolderBalance);
@@ -47,8 +35,20 @@ contract CounterTest is Test {
         assert(Token.balanceOf(Alice) == 10000);
          assert(Token.balanceOf(Dilshad) ==10000);
          assert(Token.balanceOf(Shahad) == 10000);
+    }
+
+    function testconfirmActiveFork() public{
+        assertEq(vm.activeFork(), alfajoresFork);
+    }
+
+    function testActivateSaving() public {
+        miniWallet.activateSaving(true);
+        assertEq(miniWallet.savingActive(), true);
+    }
 
 
+    function testSave() public {
+// Prank Alice address to test save() and addSaving() and viewWalletBalance() functions 
        vm.startPrank(Alice);
        Token.approve(address(miniWallet), 800);
         miniWallet.save(600, 4);
@@ -58,14 +58,7 @@ contract CounterTest is Test {
         vm.stopPrank();
 
 
-
-
-
-
-
-
-
-// Test save(), viewWalletBalance(), and addSaving functions on address Dilshad
+// Prank Dilshad address to test save(), viewWalletBalance(), and addSaving functions
         vm.startPrank(Dilshad);
         Token.approve(address(miniWallet), 800);
         miniWallet.save(300, 2);
