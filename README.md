@@ -254,5 +254,5 @@ There is a whole lot going on in the test script especially in the `setUp()` fun
 - Setting up your `.env` file.
 In your `.env` file, set the variable
 ```.json
-CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]
+CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]'
 ```
