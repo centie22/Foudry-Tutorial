@@ -19,7 +19,7 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 - [Code](#code)
 - [Testing](#testing)
     * [Fork Celo alfajores testnet](#fork celo alfajores testnet)
-    * [Test smart contract](#write smart contract test)
+    * [Test smart contract](#smart contract test)
     * [Deploy smart contract](#deploy smart contract)
 * [Conclusion](#conclusion)
 * [References](#references)
@@ -230,5 +230,23 @@ contract CounterTest is Test {
         vm.stopPrank();
 
     }
+
+    // Attempt to addSaving() without any previous saving on address Shahad. 
+//This test us expected to fail because Shahad hasn't used the saved tokens before.
+
+    function testFailaddSavingAttempt() public {
+
+        vm.startPrank(Shahad);
+
+        miniWallet.save(300, 2);
+        miniWallet.viewWalletBalance();
+        miniWallet.addSaving(300);
+        miniWallet.viewWalletBalance();
+       vm.stopPrank();
+    }
 }
 ```
+
+Let us go through the test code:
+
+#### Fork Celo alfajores testnet

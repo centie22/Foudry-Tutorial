@@ -66,16 +66,21 @@ contract CounterTest is Test {
         miniWallet.addSaving(300);
         miniWallet.viewWalletBalance();
         vm.stopPrank();
+    }
 
 // Attempt to addSaving() without any previous saving on address Shahad. 
 //This test us expected to fail because Shahad hasn't used the saved tokens before.
-        //vm.startPrank(Shahad);
 
-        // miniWallet.save(300, 2);
-        // miniWallet.viewWalletBalance();
-        //miniWallet.addSaving(300);
-        //miniWallet.viewWalletBalance();
-       //vm.stopPrank();
+    function testFailaddSavingAttempt() public {
+
+        vm.startPrank(Shahad);
+
+        miniWallet.save(300, 2);
+        miniWallet.viewWalletBalance();
+        miniWallet.addSaving(300);
+        miniWallet.viewWalletBalance();
+       vm.stopPrank();
+    }
 
 // Test withdraw() function with address Dilshad
     //    vm.startPrank(Dilshad);
@@ -89,7 +94,7 @@ contract CounterTest is Test {
 
     // function testSave() public {
     }
-}
+
 
 
 /*  
