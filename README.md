@@ -79,9 +79,6 @@ constructor (ERC20 _savingToken){
     savingToken = _savingToken;
 }
 
-//  function approve(address spender, uint256 amount) external returns (bool) {
-//         return savingToken.approve(spender, amount);
-//     }
 
 function save(uint256 _amount, uint256 savingDurationInWeeks) external {
     require(msg.sender != address(0), "zero address can't call function");
