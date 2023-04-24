@@ -1,26 +1,28 @@
 # Foundry: Deploying And Forking Mainnet With Foundry 
 
 ## Introduction
-In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. I decided to do this since I realized there is almost no tutorial on mainnet/testnet forking with foundry available on the internet.
 Some of us smart contract developers danced the bhangra when Foundry was released. But what is foundry?
 **Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the Hardhat toolkit.
 
+In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network. 
+I decided to do this since I realized there is almost no tutorial on mainnet/testnet forking with foundry available on the internet.
+
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
 
-> This tutorial is focused on those who have some level of experience working with foundry. However, if you are new to foundry, I have listed some resources in the reference section that can help you get familiar with this toolkit.
+> This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the reference section that can help you get familiar with this toolkit.
 ## Table Of Contents 
-* Introduction
-- Prerequisites
-- Requirements
-* Smart Contract
-- Installation
-- Code
-- Testing
-    * Fork Celo alfajores testnet
-    * Test smart contract
-    * Deploy smart contract
-* Conclusion
-* References
+* [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Requirements](#requirements)
+* [Getting Started](#getting-started)
+- [Smart Contract](#smart-contract)
+- [Code](#code)
+- [Testing](#testing)
+    * [Fork Celo alfajores testnet](#fork celo alfajores testnet)
+    * [Test smart contract](#write smart contract test)
+    * [Deploy smart contract](#deploy smart contract)
+* [Conclusion](#conclusion)
+* [References](#references)
 
 ## Prerequisites 
 Before going ahead with the tutorial, it is important for you to have a good understanding of 
@@ -29,85 +31,108 @@ Before going ahead with the tutorial, it is important for you to have a good und
 * The EVM. 
 
 ## Requirements
+* Infura account
 * Foundry
 * IDE
 
+### Getting Started
+- Clone this repository:
+`git clone https://github.com/centie22/Foudry-Tutorial.git`
+- Run `forge install` to install all dependencies.
+- Open project in IDE.
 ## Smart Contract
-We will be writing a simple savings smart contract which we will test and deploy. Let's get into it.
+We have `savings.sol` and `token.sol` smart contracts in the `src` folder. The first is a simple savings smart contract that allows users save a particular ERC20 token over a period of time.
+The second is the ERC20 saving token used in the savings smart contract. This token has been deployed on the Celo Alfajores chain and to interact with it in testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
 
-### Installations
+## Code
+#### savings.sol
 ```sol
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
 import "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
 
-contract miniWallet{
+contract MiniWallet{
 address admin;
 bool public savingActive;
 ERC20 savingToken;
 
-struct wallet {
+struct Wallet {
     address walletOwner;
     uint walletBalance;
     uint savingDuration;
 }
 
-mapping (address => wallet) savingWallet;
+mapping (address => Wallet) savingWallet;
 
 modifier adminRestricted() {
     require(msg.sender == admin, "Function call is restricted to contract admin");
     _;
 }
 
-event saved(uint amount, uint savningDuration, string message);
-event savingUpdated(uint amount, string message);
+event Saved(uint amount, uint savningDuration, string message);
+event SavingUpdated(uint amount, string message);
 
 constructor (ERC20 _savingToken){
     admin = msg.sender;
     savingToken = _savingToken;
 }
 
-function save (uint _amount, uint savingDurationInWeeks) external {
+//  function approve(address spender, uint256 amount) external returns (bool) {
+//         return savingToken.approve(spender, amount);
+//     }
+
+function save(uint256 _amount, uint256 savingDurationInWeeks) external {
     require(msg.sender != address(0), "zero address can't call function");
-    require (savingActive == true, "Saving inactive");
-    require(_amount > 0, "Can't save zero ether");
+    require(savingActive == true, "Saving inactive");
+    require(_amount > 0, "Can't save zero tokens");
     require(savingDurationInWeeks > 1, "Saving duration must be more than 1 week");
-    require (savingToken.balanceOf(msg.sender) >= _amount, "Current token balance less than _amount");
-    wallet storage Wallet = savingWallet[msg.sender];
-    Wallet.walletOwner = msg.sender;
-    Wallet.walletBalance += _amount;
-    Wallet.savingDuration = (block.timestamp + savingDurationInWeeks) * 1 weeks;
-    emit saved(_amount, savingDurationInWeeks, "Tokens saved successfully");
+    require(savingToken.balanceOf(msg.sender) >= _amount, "Current token balance less than _amount");
+    savingToken.transferFrom(msg.sender, address(this), _amount);
+
+    Wallet storage wallet = savingWallet[msg.sender];
+    wallet.savingDuration = block.timestamp + (savingDurationInWeeks * 1 weeks);
+    wallet.walletOwner = msg.sender;
+    wallet.walletBalance += _amount;
+
+    emit Saved(_amount, savingDurationInWeeks, "Tokens saved successfully");
 }
 
-function addSaving (uint _amount) external {
+
+function addSaving(uint256 _amount) external {
     require(savingActive == true, "Saving inactive");
-    wallet storage Wallet = savingWallet[msg.sender];
-    require(Wallet.walletBalance > 0, "You have not saved before.");
+
+    Wallet storage wallet = savingWallet[msg.sender];
+    require(wallet.walletBalance > 0, "You have not saved before.");
     require(_amount > 0, "Can't save zero tokens");
     require(savingToken.balanceOf(msg.sender) >= _amount, "Insufficient token balance.");
-    Wallet.walletBalance += _amount;
-    uint theBalance = Wallet.walletBalance;
-    emit savingUpdated(theBalance, "Successfully saved more tokens.");
+
+    SafeERC20.safeTransferFrom(savingToken, msg.sender, address(this), _amount);
+
+    wallet.walletBalance += _amount;
+    uint256 theBalance = wallet.walletBalance;
+
+    emit SavingUpdated(theBalance, "Successfully saved more tokens.");
 }
 
-function withdraw(uint _amount) external{
-    wallet storage Wallet = savingWallet[msg.sender];
-    require (msg.sender == Wallet.walletOwner, "Caller not wallet owner.");
-    require(Wallet.walletBalance >= _amount, "_amount greater than balance.");
-    if (block.timestamp >= Wallet.savingDuration) {
-        uint newBalance = Wallet.walletBalance - _amount;
-        Wallet.walletBalance = newBalance;
-       savingToken.transferFrom(address(this), msg.sender, _amount);
+function withdraw(uint256 _amount) external {
+    Wallet storage wallet = savingWallet[msg.sender];
+    require(msg.sender == wallet.walletOwner, "Caller not wallet owner.");
+    require(wallet.walletBalance >= _amount, "_amount greater than balance.");
+
+    if (block.timestamp >= wallet.savingDuration) {
+        uint256 newBalance = wallet.walletBalance - _amount;
+        wallet.walletBalance = newBalance;
+        SafeERC20.safeTransfer(savingToken, msg.sender, _amount);
     } else {
-       revert ("Saving duration not elapsed");
+        revert("Saving duration not elapsed");
     }
 }
 
 function viewWalletBalance () external view returns (uint balance){
-     wallet storage Wallet = savingWallet[msg.sender];
-     balance = Wallet.walletBalance;
+     Wallet storage wallet = savingWallet[msg.sender];
+     balance = wallet.walletBalance;
      return balance;
 }
 
@@ -118,3 +143,20 @@ function activateSaving(bool saveStatus) external adminRestricted{
 
 }
 ```
+
+#### token.sol
+```sol
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.7;
+
+import "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+
+contract token is ERC20("testToken", "tT") {
+    constructor () {
+        _mint(msg.sender, 1000000000e18);
+    } 
+}
+```
+
+## Testing
