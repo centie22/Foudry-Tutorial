@@ -5,7 +5,7 @@ Some of us smart contract developers danced the bhangra when Foundry was release
 **Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the Hardhat toolkit.
 
 In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network. 
-I decided to do this since I realized there is almost no tutorial on mainnet/testnet forking with foundry available on the internet.
+I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.
 
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
 
@@ -249,4 +249,10 @@ contract CounterTest is Test {
 
 Let us go through the test code:
 
-#### Fork Celo alfajores testnet
+#### Fork Celo Alfajores testnet
+There is a whole lot going on in the test script especially in the `setUp()` function, but our focus in this section is on the process/steps to forking the Celo Alfajores testnet. So, let's go through that:
+- Setting up your `.env` file.
+In your `.env` file, set the variable
+```.json
+CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]
+```
