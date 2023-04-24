@@ -46,7 +46,7 @@ The second is the ERC20 saving token used in the savings smart contract. This to
 
 ## Code
 #### savings.sol
-```sol
+```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
@@ -142,7 +142,7 @@ function activateSaving(bool saveStatus) external adminRestricted{
 ```
 
 #### token.sol
-```sol
+```solidity
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.7;
@@ -159,7 +159,7 @@ contract token is ERC20("testToken", "tT") {
 ## Testing
 We have the test for the savings smart contract in written in the `miniWallet.t.sol` file in test folder.
 
-```sol
+```solidity
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.7;
 
