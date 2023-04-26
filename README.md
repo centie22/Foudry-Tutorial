@@ -284,3 +284,8 @@ uint256 alfajoresFork;
         vm.selectFork(alfajoresFork);
 ```
 `selectFork` is the cheatcode that is used to enable a created fork. Since alfajoresFork is the fork just created and we want to interact with, we get it running in our local environment with `selectFork`.
+
+We can run this three step process in one line of code:
+```solidity
+uint256 alfajoresFork = vm.createSelectFork(CELO_RPC_URL);
+This strategy is suitable when forking just one network. However, the approach described in the guide is the best one to utilise if you plan to make several forks.
