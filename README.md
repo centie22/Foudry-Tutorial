@@ -251,8 +251,13 @@ Let us go through the test code:
 
 ### Fork Celo Alfajores testnet
 There is a whole lot going on in the test script especially in the `setUp()` function, but our focus in this section is on the process/steps to forking the Celo Alfajores testnet. So, let's go through that:
-#### Setting up your `.env` file.
+1. #### Setting up your `.env` file.
 In your `.env` file, set the variable
 ```
 CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]'
+```
+2. #### Access the .env file variable.
+After setting up your `.env` file, you can now go over to the test file where you will be needing the `CELO_RPC_URL` variable just created, which in our case is `miniWallet.t.sol`. We can access the variable in `.env` file with **`vm.envString(VariableName)`**:
+```
+string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
 ```
