@@ -250,14 +250,26 @@ contract CounterTest is Test {
 Let us go through the test code:
 
 ### Fork Celo Alfajores testnet
-There is a whole lot going on in the test script especially in the `setUp()` function, but our focus in this section is on the process/steps to forking the Celo Alfajores testnet. So, let's go through that:
+There is a tonne going on in the test code, notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Therefore, let's go through it. Foundry "forge" offers two methods for supporting testing in a forked environment:
+1. The Forking Mode.
+2. Forking Cheatcodes.
+The Forking Cheatcode method will be used in this tutorial. You can create, choose, and manage several forks in your solidity test code using this technique.
 1. #### Setting up your `.env` file.
 In your `.env` file, set the variable
 ```
 CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]'
 ```
 2. #### Access the .env file variable.
-After setting up your `.env` file, you can now go over to the test file where you will be needing the `CELO_RPC_URL` variable just created, which in our case is `miniWallet.t.sol`. We can access the variable in `.env` file with **`vm.envString(VariableName)`**:
+After setting up your `.env` file, you can now go over to the test file where you will be needing the `CELO_RPC_URL` variable just created, which in our case is `miniWallet.t.sol`. We can access the variable in `.env` file with **`vm.envString(VariableName)`**. In our test code, we will have
 ```solidity
 string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
 ```
+as a state variable.
+
+3. #### Create Alfajores testnet fork
+In order to make the forked network available to all available in each test, we will create the fork in the `setUp()` function. 
+```solidity
+        alfajoresFork = vm.createFork(CELO_RPC_URL);
+        vm.selectFork(alfajoresFork);
+```
+        There are two cheatcodes to take note of here:
