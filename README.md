@@ -169,6 +169,14 @@ import "../src/token.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import "forge-std/console.sol";
 
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.7;
+
+import "forge-std/Test.sol";
+import "../src/savings.sol";
+import "../src/token.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
+
 contract CounterTest is Test {
     MiniWallet public miniWallet;
     address Alice;
@@ -203,10 +211,6 @@ contract CounterTest is Test {
         assertEq(vm.activeFork(), alfajoresFork);
     }
 
-    function testActivateSaving() public {
-        miniWallet.activateSaving(true);
-        assertEq(miniWallet.savingActive(), true);
-    }
 
 
     function testSave() public {
@@ -228,23 +232,38 @@ contract CounterTest is Test {
         miniWallet.addSaving(300);
         miniWallet.viewWalletBalance();
         vm.stopPrank();
-
     }
 
-    // Attempt to addSaving() without any previous saving on address Shahad. 
-//This test us expected to fail because Shahad hasn't used the saved tokens before.
+// Attempt to addSaving() without any previous saving on address Shahad. 
+//This test is expected to fail because Shahad hasn't used the saved tokens before.
 
-    function testFailaddSavingAttempt() public {
-
+    function testFail_addSavingAttempt() public {
         vm.startPrank(Shahad);
-
-        miniWallet.save(300, 2);
-        miniWallet.viewWalletBalance();
+        Token.approve(address(miniWallet), 800);
         miniWallet.addSaving(300);
         miniWallet.viewWalletBalance();
        vm.stopPrank();
     }
-}
+
+// Test withdraw() function with address Dilshad before saving time elapses.
+    function testFail_WithdrawBeforeTime() public{
+       vm.startPrank(Dilshad);
+       Token.approve(address(miniWallet), 800);
+       miniWallet.save(300, 2);
+       miniWallet.withdraw(300);
+       vm.stopPrank();
+    }
+
+// Test withdraw() function with address Shahad, which hasn't saved any token on savings.sol
+    function testFail_Withdraw() public {
+       vm.startPrank(Shahad);
+       miniWallet.withdraw(200);
+       vm.stopPrank();
+    }
+
+
+  
+    }
 ```
 
 Let us go through the test code:
