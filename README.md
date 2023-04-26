@@ -319,3 +319,17 @@ With the `forge create` command, Foundry makes it easy to deploy smart contracts
 Our contract is successfully deployed to the [Celo Alfajores Blockchain](https://alfajores.celoscan.io/address/0x45748698cbb8840424908aa6b85242080d22fa28)!
 
 ![image](image/terminal_deploy.png).
+
+## Conclusion
+Foundry is an innovative toolkit for building and deploying decentralized applications on the blockchain. It simplifies the process of writing tests and deploying smart contracts by allowing you to write tests in Solidity. Forking a blockchain network is an excellent way to test and debug smart contracts in a local environment.
+
+In this tutorial, we have covered how to deploy a smart contract and fork the Celo Alfajores testnet using Foundry.
+
+It is important to have a good understanding of Solidity, smart contracts, and the EVM before attempting to use Foundry. This tutorial is ideal for developers with some level of experience using Foundry.
+
+In conclusion, Foundry is a valuable toolkit for developing decentralized applications, and it is worth exploring for everyone smart contract developer.
+
+## References
+* [Foundry Book](https://book.getfoundry.sh).
+* [Celo Docs for developers](https://docs.celo.org/developer).
+* [Foundry Tutorial Videos](https://www.youtube.com/playlist?list=PLO5VPQH6OWdUrKEWPF07CSuVm3T99DQki).
