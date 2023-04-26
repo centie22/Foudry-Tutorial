@@ -288,4 +288,5 @@ uint256 alfajoresFork;
 We can run this three step process in one line of code:
 ```solidity
 uint256 alfajoresFork = vm.createSelectFork(CELO_RPC_URL);
+```
 This strategy is suitable when forking just one network. However, the approach described in the guide is the best one to utilise if you plan to make several forks.
