@@ -88,5 +88,4 @@ function activateSaving(bool saveStatus) external adminRestricted{
     savingActive = saveStatus;
 }
 
-
 }
