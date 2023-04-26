@@ -258,6 +258,6 @@ CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]'
 ```
 2. #### Access the .env file variable.
 After setting up your `.env` file, you can now go over to the test file where you will be needing the `CELO_RPC_URL` variable just created, which in our case is `miniWallet.t.sol`. We can access the variable in `.env` file with **`vm.envString(VariableName)`**:
-```
+```solidity
 string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
 ```
