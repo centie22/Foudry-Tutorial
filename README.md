@@ -267,9 +267,20 @@ string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
 as a state variable.
 
 3. #### Create Alfajores testnet fork
-In order to make the forked network available to all available in each test, we will create the fork in the `setUp()` function. 
+In order to make the forked network available to all available in each test, we will create the fork in the `setUp()` function. Let us take this one step at a time:
+
+1. Create a variable in state that will be a unique identifier for our fork.
 ```solidity
-        alfajoresFork = vm.createFork(CELO_RPC_URL);
+uint256 alfajoresFork;
+```
+2. In `setUp()`, assign this variable.
+```solidity
+    alfajoresFork = vm.createFork(CELO_RPC_URL);
+```
+`createFork` is a cheatcode that creates forks. Hence, we just created the alfajores fork in our solidity code with it.
+
+3. Enable the created fork.
+```solidity
         vm.selectFork(alfajoresFork);
 ```
-        There are two cheatcodes to take note of here:
+`selectFork` is the cheatcode that is used to enable a created fork. Since alfajoresFork is the fork just created and we want to interact with, we get it running in our local environment with `selectFork`.
