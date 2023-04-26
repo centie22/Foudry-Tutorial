@@ -66,7 +66,7 @@ contract CounterTest is Test {
 // Attempt to addSaving() without any previous saving on address Shahad. 
 //This test is expected to fail because Shahad hasn't used the saved tokens before.
 
-    function testFail_addSavingAttempt() public {
+    function testFailaddSavingAttempt() public {
         vm.startPrank(Shahad);
         Token.approve(address(miniWallet), 800);
         miniWallet.addSaving(300);
@@ -75,7 +75,7 @@ contract CounterTest is Test {
     }
 
 // Test withdraw() function with address Dilshad before saving time elapses.
-    function testFail_WithdrawBeforeTime() public{
+    function testFailWithdrawBeforeTime() public{
        vm.startPrank(Dilshad);
        Token.approve(address(miniWallet), 800);
        miniWallet.save(300, 2);
@@ -84,7 +84,7 @@ contract CounterTest is Test {
     }
 
 // Test withdraw() function with address Shahad, which hasn't saved any token on savings.sol
-    function testFail_Withdraw() public {
+    function testFailWithdraw() public {
        vm.startPrank(Shahad);
        miniWallet.withdraw(200);
        vm.stopPrank();

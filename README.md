@@ -19,7 +19,7 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 - [Code](#code)
 - [Testing](#testing)
     * Fork Celo alfajores testnet
-    * Deploy smart contract
+-  [Deploy smart contract](#deploy-smart-contract)
 * [Conclusion](#conclusion)
 * [References](#references)
 
@@ -36,7 +36,9 @@ Before going ahead with the tutorial, it is important for you to have a good und
 
 ### Getting Started
 - Clone this repository:
-`git clone https://github.com/centie22/Foudry-Tutorial.git`
+```
+git clone https://github.com/centie22/Foudry-Tutorial.git
+```
 - Run `forge install` to install all dependencies.
 - Open project in IDE.
 ## Smart Contract
@@ -256,13 +258,15 @@ contract CounterTest is Test {
     }
 ```
 
-The Token used in the test code has already been deployed on the Alfajores chain, hence we must fork the Alfajores chain in order to interact with its functions in our local environment. Check out the process: 
+The Token used in the test code has already been deployed on the [Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf), hence we must fork the Alfajores chain in order to interact with its functions in our local environment.
 
 ### Fork Celo Alfajores testnet
-There is a tonne going on in the test code, notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Therefore, let's go through it. Foundry "forge" offers two methods for supporting testing in a forked environment:
+There is a tonne going on in the test code, notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Foundry "forge" offers two methods for supporting testing in a forked environment:
 1. The Forking Mode.
 2. Forking Cheatcodes.
-The Forking Cheatcode method will be used in this tutorial. You can create, choose, and manage several forks in your solidity test code using this technique.
+The `Forking Cheatcodes` method will be used in this tutorial. You can create, choose, and manage several forks in your solidity test code using this technique.
+
+Let's go through the steps:
 1. #### Setting up your `.env` file.
 In your `.env` file, set the variable
 ```
@@ -303,4 +307,15 @@ uint256 alfajoresFork;
 Now that we have forked the Alfajores testnet and wriiten our contract testcode, we can run ```forge test``` to see if everything works perfectly. 
 ![image](image/terminal_test.png)
 
-Everything works just fine!
+Everything works just fine! Now we can go ahead to deploy our `MiniWallet` smart contract.
+
+## Deploy smart contract
+With the `forge create` command, Foundry makes it easy to deploy smart contracts on to any blockchain. Let's deploy our contract:
+
+```
+ forge create --rpc-url <your_rpc_url> --constructor-args <contract_constructor_args>  --private-key <your_private_key>  src/savings.sol:MiniWallet
+```
+
+Our contract is successfully deployed to the [Celo Alfajores Blockchain](https://alfajores.celoscan.io/address/0x45748698cbb8840424908aa6b85242080d22fa28)!
+
+![image](image/terminal_deploy.png).
