@@ -89,7 +89,5 @@ contract CounterTest is Test {
        miniWallet.withdraw(200);
        vm.stopPrank();
     }
-
-
   
     }

@@ -1,8 +1,8 @@
 # Foundry: Deploying And Forking Mainnet With Foundry 
 
 ## Introduction
-Some of us smart contract developers danced the bhangra when Foundry was released. But what is foundry?
-**Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the Hardhat toolkit.
+Some of us smart contract developers danced the bhangra when Foundry was released.
+**Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
 
 In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network. 
 I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.
@@ -19,7 +19,6 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 - [Code](#code)
 - [Testing](#testing)
     * Fork Celo alfajores testnet
-    * Test smart contract
     * Deploy smart contract
 * [Conclusion](#conclusion)
 * [References](#references)
@@ -167,15 +166,6 @@ import "forge-std/Test.sol";
 import "../src/savings.sol";
 import "../src/token.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-import "forge-std/console.sol";
-
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.7;
-
-import "forge-std/Test.sol";
-import "../src/savings.sol";
-import "../src/token.sol";
-import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract CounterTest is Test {
     MiniWallet public miniWallet;
@@ -266,7 +256,7 @@ contract CounterTest is Test {
     }
 ```
 
-Let us go through the test code:
+The Token used in the test code has already been deployed on the Alfajores chain, hence we must fork the Alfajores chain in order to interact with its functions in our local environment. Check out the process: 
 
 ### Fork Celo Alfajores testnet
 There is a tonne going on in the test code, notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Therefore, let's go through it. Foundry "forge" offers two methods for supporting testing in a forked environment:
@@ -304,8 +294,13 @@ uint256 alfajoresFork;
 ```
 `selectFork` is the cheatcode that is used to enable a created fork. Since alfajoresFork is the fork just created and we want to interact with, we get it running in our local environment with `selectFork`.
 
-We can run this three step process in one line of code:
+> We can run this three step process in one line of code:
 ```solidity
 uint256 alfajoresFork = vm.createSelectFork(CELO_RPC_URL);
 ```
 This strategy is suitable when forking just one network. However, the approach described in the tutorial is the best one to utilise if you plan to create and use several forks.
+
+Now that we have forked the Alfajores testnet and wriiten our contract testcode, we can run ```forge test``` to see if everything works perfectly. 
+![image](image/terminal_test.png)
+
+Everything works just fine!
