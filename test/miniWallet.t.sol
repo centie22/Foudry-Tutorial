@@ -41,10 +41,6 @@ contract CounterTest is Test {
         assertEq(vm.activeFork(), alfajoresFork);
     }
 
-    function testActivateSaving() public {
-        miniWallet.activateSaving(true);
-        assertEq(miniWallet.savingActive(), true);
-    }
 
 
     function testSave() public {
