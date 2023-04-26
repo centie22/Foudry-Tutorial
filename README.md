@@ -43,7 +43,7 @@ git clone https://github.com/centie22/Foudry-Tutorial.git
 - Open project in IDE.
 ## Smart Contract
 We have `savings.sol` and `token.sol` smart contracts in the `src` folder. The first is a simple savings smart contract that allows users save a particular ERC20 token over a period of time.
-The second is the ERC20 saving token used in the savings smart contract. This token has been deployed on the Celo Alfajores chain and to interact with it in testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
+The second is the ERC20 saving token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
 
 ## Code
 #### savings.sol
@@ -257,8 +257,6 @@ contract CounterTest is Test {
   
     }
 ```
-
-The Token used in the test code has already been deployed on the [Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf), hence we must fork the Alfajores chain in order to interact with its functions in our local environment.
 
 ### Fork Celo Alfajores testnet
 There is a tonne going on in the test code, notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Foundry "forge" offers two methods for supporting testing in a forked environment:
