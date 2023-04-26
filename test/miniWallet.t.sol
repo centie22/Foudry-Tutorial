@@ -5,7 +5,6 @@ import "forge-std/Test.sol";
 import "../src/savings.sol";
 import "../src/token.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-import "forge-std/console.sol";
 
 contract CounterTest is Test {
     MiniWallet public miniWallet;
@@ -65,39 +64,32 @@ contract CounterTest is Test {
     }
 
 // Attempt to addSaving() without any previous saving on address Shahad. 
-//This test us expected to fail because Shahad hasn't used the saved tokens before.
+//This test is expected to fail because Shahad hasn't used the saved tokens before.
 
-    function testFailaddSavingAttempt() public {
-
+    function testFail_addSavingAttempt() public {
         vm.startPrank(Shahad);
-
-        miniWallet.save(300, 2);
-        miniWallet.viewWalletBalance();
+        Token.approve(address(miniWallet), 800);
         miniWallet.addSaving(300);
         miniWallet.viewWalletBalance();
        vm.stopPrank();
     }
 
-// Test withdraw() function with address Dilshad
-    //    vm.startPrank(Dilshad);
-    //    miniWallet.withdraw(500);
-    //    vm.stopPrank();
-// Test withdraw() function with address Shahad, which hasn't saved any token on savings.sol
-    //    vm.startPrank(Shahad);
-    //    miniWallet.withdraw(200);
-    //    vm.stopPrank();
-    // }
+// Test withdraw() function with address Dilshad before saving time elapses.
+    function testFail_WithdrawBeforeTime() public{
+       vm.startPrank(Dilshad);
+       Token.approve(address(miniWallet), 800);
+       miniWallet.save(300, 2);
+       miniWallet.withdraw(300);
+       vm.stopPrank();
+    }
 
-    // function testSave() public {
+// Test withdraw() function with address Shahad, which hasn't saved any token on savings.sol
+    function testFail_Withdraw() public {
+       vm.startPrank(Shahad);
+       miniWallet.withdraw(200);
+       vm.stopPrank();
     }
 
 
-
-/*  
-
-    No, first, I want to fork mainnet then activate it.
-    Next get an address that has CELO, the CELO contract address and addresses to impersonate
-    I also wanna activate saving and withdraw, then save with some addresses and attempt to withdraw.
-    Deactive and try to save
-    prank another address to withdraw.
- */
+  
+    }
