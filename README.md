@@ -295,10 +295,10 @@ uint256 alfajoresFork;
 `selectFork` is the cheatcode that is used to enable a created fork. Since alfajoresFork is the fork just created and we want to interact with, we get it running in our local environment with `selectFork`.
 
 > We can run this three step process in one line of code:
-```solidity
-uint256 alfajoresFork = vm.createSelectFork(CELO_RPC_URL);
-```
-This strategy is suitable when forking just one network. However, the approach described in the tutorial is the best one to utilise if you plan to create and use several forks.
+> ```solidity
+> uint256 alfajoresFork = vm.createSelectFork(CELO_RPC_URL);
+> ```
+> This strategy is suitable when forking just one network. However, the approach described in the tutorial is the best one to utilise if you plan to create and use several forks.
 
 Now that we have forked the Alfajores testnet and wriiten our contract testcode, we can run ```forge test``` to see if everything works perfectly. 
 ![image](image/terminal_test.png)
