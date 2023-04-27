@@ -33,11 +33,11 @@ Before going ahead with the tutorial, it is important for you to have a good und
 * [Foundry](#references). 
 
 ## Requirements
-* [Infura account](https://app.infura.io/dashboard).
+* [Infura account](https://app.infura.io/dashboard).  
 Infura is a node provider that allows developers to plug into blockchains such as Ethereum, Avalanche, and Celo via Infura self-managed nodes, saving developers time, money and work.  
-* [Foundry](https://book.getfoundry.sh/getting-started/installation)
+* [Foundry](https://book.getfoundry.sh/getting-started/installation)  
 It is important to have foundry installed on your computer.
-* [IDE](https://www.veracode.com/security/integrated-development-environment)
+* [IDE](https://www.veracode.com/security/integrated-development-environment)  
 Have an Integrated Development Environment of your choice installed. 
 
 
