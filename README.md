@@ -4,35 +4,42 @@
 Some of us smart contract developers danced the bhangra when Foundry was released.
 **Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
 
-In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network. 
+In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. Forking mainnet or testnet is the process of copying the network's current or previous state and putting it into your local development network. While the remaining transactions or blocks are mined and added to your personal development network, you will be able to access the deployed smart contracts in the mainnet for testing purposes. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network. 
 I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.
 
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
 
-> This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the reference section that can help you get familiar with this toolkit.
 ## Table Of Contents 
-* [Introduction](#introduction)
-- [Prerequisites](#prerequisites)
-- [Requirements](#requirements)
-* [Getting Started](#getting-started)
-- [Smart Contract](#smart-contract)
-- [Code](#code)
-- [Testing](#testing)
-    * Fork Celo alfajores testnet
--  [Deploy smart contract](#deploy-smart-contract)
-* [Conclusion](#conclusion)
-* [References](#references)
+* [Introduction](#introduction).
+- [Prerequisites](#prerequisites).
+- [Requirements](#requirements).
+* [Getting Started](#getting-started).
+- * [Smart Contract](#smart-contract).
+-  Savings smart contract.
+- Token smart contract.
+- * [Code](#code).
+- [Testing](#testing).
+    * Fork Celo alfajores testnet.
+-  [Deploy smart contract](#deploy-smart-contract).
+* [Conclusion](#conclusion).
+* [References](#references).
 
-## Prerequisites 
+## Prerequisites
+ This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit. 
 Before going ahead with the tutorial, it is important for you to have a good understanding of 
-* solidity 
-* smart contracts 
-* The EVM. 
+* [solidity](https://soliditylang.org),
+* smart contracts, 
+* [The EVM](https://ethereum.org/en/developers/docs/evm/), and
+* [Foundry](#references). 
 
 ## Requirements
-* Infura account
-* Foundry
-* IDE
+* [Infura account](https://app.infura.io/dashboard).
+Infura is a node provider that allows developers to plug into blockchains such as Ethereum, Avalanche, and Celo via Infura self-managed nodes, saving developers time, money and work.  
+* [Foundry](https://book.getfoundry.sh/getting-started/installation)
+It is important to have foundry installed on your computer.
+* [IDE](https://www.veracode.com/security/integrated-development-environment)
+Have an Integrated Development Environment of your choice installed. 
+
 
 ### Getting Started
 - Clone this repository:
