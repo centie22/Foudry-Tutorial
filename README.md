@@ -14,10 +14,10 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 - [Prerequisites](#prerequisites).
 - [Requirements](#requirements).
 * [Getting Started](#getting-started).
-- * [Smart Contract](#smart-contract).
+* [Smart Contract](#smart-contract).
 -  Savings smart contract.
 - Token smart contract.
-- * [Code](#code).
+-  [Code](#code).
 - [Testing](#testing).
     * Fork Celo alfajores testnet.
 -  [Deploy smart contract](#deploy-smart-contract).
@@ -28,28 +28,65 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
  This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit. 
 Before going ahead with the tutorial, it is important for you to have a good understanding of 
 * [solidity](https://soliditylang.org),
-* smart contracts, 
+* [smart contracts](https://www.ibm.com/topics/smart-contracts), 
 * [The EVM](https://ethereum.org/en/developers/docs/evm/), and
 * [Foundry](#references). 
 
 ## Requirements
-* [Infura account](https://app.infura.io/dashboard).  
+* [Infura account](https://app.infura.io/dashboard):  
 Infura is a node provider that allows developers to plug into blockchains such as Ethereum, Avalanche, and Celo via Infura self-managed nodes, saving developers time, money and work.  
-* [Foundry](https://book.getfoundry.sh/getting-started/installation)  
+* [Foundry](https://book.getfoundry.sh/getting-started/installation):  
 It is important to have foundry installed on your computer.
-* [IDE](https://www.veracode.com/security/integrated-development-environment)  
-Have an Integrated Development Environment of your choice installed. 
+* [IDE](https://www.veracode.com/security/integrated-development-environment):  
+Have an Integrated Development Environment of your choice installed. We will be using `Visual Studio Code [VSCode]` for this tutorial.
 
 
 ### Getting Started
+Let us go through steps to seeting up our project.  
+- Create a project folder.  
+In your terminal, run the following command to create a new folder:
+``
+mkdir MiniWallet
+```
+
+- Navigate into your new project folder.
+```
+cd MiniWallet
+```  
+
 - Clone this repository:
+Clone this repository into your new folder
 ```
 git clone https://github.com/centie22/Foudry-Tutorial.git
 ```
-- Run `forge install` to install all dependencies.
+
+- Navigate into the smart contract folder  
+```
+cd Foudry-Tutorial
+```
+
+- Install all dependencies.
+```
+forge install
+```
+
 - Open project in IDE.
+```
+code .
+```  
+
+Now that we have our project all set up, let us go through the smart contracts and their functions.  
+
 ## Smart Contract
-We have `savings.sol` and `token.sol` smart contracts in the `src` folder. The first is a simple savings smart contract that allows users save a particular ERC20 token over a period of time.
+We will be working with two smart contracts, which are `savings.sol` and `token.sol` in the `src` folder.  
+### Savings Smart Contract 
+The savings smart contract is a simple contract that allows users save a particular ERC20 token over a period of time. It has the following functions:  
+* save():  
+The save function allows users to begin saving on MiniWallet. It takes in two parameters, `_amount`, which is the number of tokens the user wants to save and `_savingDurationInWeeks`, which is the number of weeks the user wants to save for.
+* addSaving():  
+This function allows users add more tokens to their savings on the contract. It takes in the `_amount` parameter.  
+* withdraw():  
+The witdraw function is the function that allows users withdraw some amount of their savings after the savings period has elapsed. It takes in the `_amount` 
 The second is the ERC20 saving token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
 
 ## Code
