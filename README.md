@@ -13,11 +13,13 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 * [Introduction](#introduction).
 - [Prerequisites](#prerequisites).
 - [Requirements](#requirements).
-* [Getting Started](#getting-started).
+- [Getting Started](#getting-started).
 * [Smart Contract](#smart-contract).
--  Savings smart contract.
-- Token smart contract.
+    * Savings smart contract.
+    * Token smart contract.
 -  [Code](#code).
+    * [savings.sol](#savingssol).
+    * [token.sol](#tokensol).
 - [Testing](#testing).
     * Fork Celo alfajores testnet.
 -  [Deploy smart contract](#deploy-smart-contract).
@@ -92,10 +94,13 @@ Now that we have our project all set up, let us go through the smart contracts a
 We will be working with two smart contracts, which are `savings.sol` and `token.sol` in the `src` folder.  
 ### Savings Smart Contract 
 The savings `MiniWallet` smart contract is a simple contract that allows users save a particular ERC20 token over a period of time. It has the following functions:  
+
 * save():  
-The save function allows users to begin saving on MiniWallet. It takes in two parameters, `_amount`, which is the number of tokens the user wants to save and `_savingDurationInWeeks`, which is the number of weeks the user wants to save for.
+The save function allows users to begin saving on MiniWallet. It takes in two parameters, `_amount`, which is the number of tokens the user wants to save and `_savingDurationInWeeks`, which is the number of weeks the user wants to save for.  
+
 * addSaving():  
-This function allows users add more tokens to their savings on the contract. It takes in the `_amount` parameter.  
+This function allows users add more tokens to their savings on the contract. It takes in the `_amount` parameter.  The logic in this function does not allow users to use to add savings if they have not saved tokens before with the save() function.  
+
 * withdraw():  
 The witdraw function is the function that allows users withdraw some amount of their savings after the savings period has elapsed. It takes in the `_amount` parameter, which is the amount of tokens the user wants to withdraw from their savings.  
 
@@ -215,7 +220,7 @@ contract token is ERC20("testToken", "tT") {
 ```
 
 ## Testing
-We have the test for the savings smart contract in written in the `miniWallet.t.sol` file in test folder.
+We have the test code for the savings smart contract in written in the `miniWallet.t.sol` file in test folder.
 
 ```solidity
 // SPDX-License-Identifier: UNLICENSED
