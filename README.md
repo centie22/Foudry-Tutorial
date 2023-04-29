@@ -91,14 +91,16 @@ Now that we have our project all set up, let us go through the smart contracts a
 ## Smart Contract
 We will be working with two smart contracts, which are `savings.sol` and `token.sol` in the `src` folder.  
 ### Savings Smart Contract 
-The savings smart contract is a simple contract that allows users save a particular ERC20 token over a period of time. It has the following functions:  
+The savings `MiniWallet` smart contract is a simple contract that allows users save a particular ERC20 token over a period of time. It has the following functions:  
 * save():  
 The save function allows users to begin saving on MiniWallet. It takes in two parameters, `_amount`, which is the number of tokens the user wants to save and `_savingDurationInWeeks`, which is the number of weeks the user wants to save for.
 * addSaving():  
 This function allows users add more tokens to their savings on the contract. It takes in the `_amount` parameter.  
 * withdraw():  
-The witdraw function is the function that allows users withdraw some amount of their savings after the savings period has elapsed. It takes in the `_amount` 
-The second is the ERC20 saving token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
+The witdraw function is the function that allows users withdraw some amount of their savings after the savings period has elapsed. It takes in the `_amount` parameter, which is the amount of tokens the user wants to withdraw from their savings.  
+
+### Token Smart Contract  
+The `testToken` smart contract is the ERC20 token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
 
 ## Code
 #### savings.sol
