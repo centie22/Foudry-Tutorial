@@ -44,35 +44,46 @@ Have an Integrated Development Environment of your choice installed. We will be 
 ### Getting Started
 Let us go through steps to seeting up our project.  
 - Create a project folder.  
-In your terminal, run the following command to create a new folder:
-``
+In your terminal, run the following command to create a new folder:  
+
+```
 mkdir MiniWallet
+
 ```
 
-- Navigate into your new project folder.
+- Navigate into your new project folder.  
+
 ```
 cd MiniWallet
+
 ```  
 
 - Clone this repository:
-Clone this repository into your new folder
+Clone this repository into your new folder  
+
 ```
 git clone https://github.com/centie22/Foudry-Tutorial.git
+
 ```
 
 - Navigate into the smart contract folder  
 ```
 cd Foudry-Tutorial
+
 ```
 
 - Install all dependencies.
+
 ```
 forge install
+
 ```
 
 - Open project in IDE.
+
 ```
 code .
+
 ```  
 
 Now that we have our project all set up, let us go through the smart contracts and their functions.  
