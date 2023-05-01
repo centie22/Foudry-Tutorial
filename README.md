@@ -4,7 +4,7 @@
 Some of us smart contract developers danced the bhangra when Foundry was released.
 **Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
 
-In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. Forking mainnet or testnet is the process of copying the network's current or previous state and putting it into your local development network. While the remaining transactions or blocks are mined and added to your personal development network, you will be able to access the deployed smart contracts in the mainnet for testing purposes. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network. 
+In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. Forking mainnet or testnet is the process of copying the network's current or previous state and bringing it into your local development network. While the remaining transactions or blocks are mined and added to your personal development network, you will be able to access the deployed smart contracts in the mainnet for testing purposes. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network.  
 I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.
 
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
@@ -28,8 +28,8 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 * [References](#references).
 
 ## Prerequisites
- This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit. 
-Before going ahead with the tutorial, it is important for you to have a good understanding of 
+ This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit.  
+ Before going ahead with the tutorial, it is important for you to have a good understanding of 
 * [solidity](https://soliditylang.org),
 * [smart contracts](https://www.ibm.com/topics/smart-contracts), 
 * [The EVM](https://ethereum.org/en/developers/docs/evm/), and
@@ -37,7 +37,7 @@ Before going ahead with the tutorial, it is important for you to have a good und
 
 ## Requirements
 * [Infura account](https://app.infura.io/dashboard):  
-Infura is a node provider that allows developers to plug into blockchains such as Ethereum, Avalanche, and Celo via Infura self-managed nodes, saving developers time, money and work.  
+Infura is a node provider that allows developers to plug into blockchains such as Ethereum, Avalanche, and Celo via Infura self-managed nodes. This saves developers the time, money and work, which would they would have to put in to run their own node.  
 * [Foundry](https://book.getfoundry.sh/getting-started/installation):  
 It is important to have foundry installed on your computer.
 * [IDE](https://www.veracode.com/security/integrated-development-environment):  
@@ -95,25 +95,25 @@ Now that we have our project all set up, let us go through the smart contracts a
 We are working with the two smart contracts in the `src` folder, `savings.sol` and `token.sol`. Let's briefly examine these smart contracts.
 
 ### Savings Smart Contract 
-The savings `MiniWallet` smart contract is a simple contract that allows users save a particular ERC20 token over a period of time. It has the following functions:  
+The savings `MiniWallet` smart contract is a simple contract that allows users save ERC20 `testToken` over a period of time. It has the following functions:  
 
 * **save()**:  
 The save function allows users to begin saving on MiniWallet. It takes in two parameters, `_amount`, which is the number of tokens the user wants to save and `_savingDurationInWeeks`, which is the number of weeks the user wants to save for. When a user successfully saves test tokens, a wallet is created that contains all the user's savings details.  
 
 * **addSaving()**:  
-This function allows users add more tokens to their savings on the contract. It takes in the `_amount` parameter.  The logic in this function does not allow users to use to add savings if they have not saved tokens before with the save() function.  
+This function allows users add more tokens to their savings on the contract. It takes in the `_amount` parameter.  The logic in this function does not allow users use addSavings() if they have not saved tokens before with the save() function.  
 
 * **withdraw()**:  
 The witdraw function is the function that allows users withdraw some amount of their savings after the savings period has elapsed. It takes in the `_amount` parameter, which is the amount of tokens the user wants to withdraw from their savings.  
 
-* **viewwalletBalance()**:  
-Function that returns a user's balance. it is a view functions and takes in no parameters.  
+* **viewWalletBalance()**:  
+Function that returns a user's wallet balance. It is a view functions and takes in no parameters.  
 
 * **activateSaving()**:  
 This is an admin restricted function that the owner uses to activate and deactivate savingActive. Users cannot save on MiniWallet if `savingActive` is false.  
 
 ### Token Smart Contract  
-The `testToken` smart contract is the ERC20 token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
+The `testToken` smart contract is the ERC20 token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in our test code while testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
 
 ## Code
 #### savings.sol
@@ -245,6 +245,7 @@ contract CounterTest is Test {
     address Alice;
     address Dilshad;
     address Shahad;
+    address Joy;
     IERC20 Token = IERC20 (0x865b5751bcDe7E06030670b4d9D27651A25f2fCF);
     uint256 alfajoresFork;
     string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
@@ -257,6 +258,7 @@ contract CounterTest is Test {
         Alice = 0xE7818b0e067Bc205B0a2A3055818083D13F11aA8;
         Dilshad = 0x085Ee67132Ec4297b85ed5d1b4C65424D36fDA7d;
         Shahad = 0xD06e61faEB0d8a7B0835C0F3C127aED98908a687;
+        Joy = 0x4e9002224006AD3eb8b8AD20F74b0Dcf53CCFdB3;
         address holder = 0x049C780d7fa94AA70194eFC88ee109781eaeE1C2;
         uint HolderBalance = Token.balanceOf(holder); 
         emit log_uint(HolderBalance);
@@ -296,42 +298,48 @@ contract CounterTest is Test {
         vm.stopPrank();
     }
 
-/* Attempt to addSaving() without any previous saving on address Shahad. 
+ /* Attempt to addSaving() without any previous saving on address Shahad. 
 This test is expected to fail because Shahad hasn't used the saved tokens before. */
-    function testFail_addSavingAttempt() public {
+    function testFailaddSavingAttempt() public {
         vm.startPrank(Shahad);
         Token.approve(address(miniWallet), 800);
         miniWallet.addSaving(300);
-        miniWallet.viewWalletBalance();
        vm.stopPrank();
     }
 
 // Test withdraw() function with address Dilshad before saving time elapses.
-    function testFail_WithdrawBeforeTime() public{
+    function testFailWithdrawBeforeTime() public{
        vm.startPrank(Dilshad);
        Token.approve(address(miniWallet), 800);
        miniWallet.save(300, 2);
+       miniWallet.viewWalletBalance();
        miniWallet.withdraw(300);
        vm.stopPrank();
     }
 
 // Test withdraw() function with address Shahad, which hasn't saved any token on savings.sol
-    function testFail_Withdraw() public {
+    function testFailWithdraw() public {
        vm.startPrank(Shahad);
        miniWallet.withdraw(200);
        vm.stopPrank();
     }
-
-
   
+    /* Test with address that does not have test tokens */
+    function testFailNoTokenSaveAttempt() public {
+        vm.startPrank(Joy);
+        Token.approve(address(miniWallet), 600);
+        miniWallet.save(200, 2);
+        vm.stopPrank();
+    }
     }
 ```
 
-Now, we will go through the process of forking Celo Alfajores testnet and then explain the test functions.
+We will now go over the forking procedure for the Celo Alfajores testnet before describing the test functions.
+
 ### Fork Celo Alfajores testnet
 There is a tonne going on in the test code, notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Foundry "forge" offers two methods for supporting testing in a forked environment:
-1. The Forking Mode.
-2. Forking Cheatcodes.
+- The Forking Mode.
+- Forking Cheatcodes.  
 The `Forking Cheatcodes` method will be used in this tutorial. You can create, choose, and manage several forks in your solidity test code using this technique.
 
 Let's go through the steps:
@@ -341,14 +349,14 @@ In your `.env` file, set the variable
 CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]'
 ```
 2. #### Access the .env file variable.
-After setting up your `.env` file, you can now go over to the test file where you will be needing the `CELO_RPC_URL` variable just created, which in our case is `miniWallet.t.sol`. We can access the variable in `.env` file with **`vm.envString(VariableName)`**. In our test code, we will have
+After setting up your `.env` file, you can now go over to the `miniWallet.t.sol` test file where you will be needing the `CELO_RPC_URL` variable just created. We can access the variable in `.env` file with **`vm.envString(VariableName)`**. In our test code, we will have
 ```solidity
 string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
 ```
 as a state variable.
 
 3. #### Create Alfajores testnet fork
-In order to make the forked network available to all available in each test, we will create the fork in the `setUp()` function. Let us take this one step at a time:
+In order to make the forked network available in each test, we will create the fork in the `setUp()` function. Let us take this one step at a time:
 
 * **Create a variable in state that will be a unique identifier for our fork**
 ```solidity
@@ -370,26 +378,26 @@ uint256 alfajoresFork;
 > ```solidity
 > uint256 alfajoresFork = vm.createSelectFork(CELO_RPC_URL);
 > ```
-> This strategy is suitable when forking just one network. However, the approach described in the tutorial is the best one to utilise if you plan to create and use several forks.  
+> This strategy is suitable when forking just one network. However, the approach described in this tutorial is the best one to utilise if you plan to create and use several forks.  
 
 ### Test Code Explained  
 Now that we have gone through the steps to forking the testnet we want to interact with, let's go through the functions in the test code.  
 
 * **setUp()**:  
 We have the following happening in the setUp() function:  
-- Createion and selection of the Alfajores fork,
+- Creation and selection of the Alfajores fork,
 - Local deployment of MiniWallet contract,
 - Setting `activateSaving` to true to allow savings on the contract,
 - Pranking address that holds all of testToken,
 - Transferred testTokens to three different addresses- Alice, Dilshad, and Shahad using the `transfer` function in the token contract,
-- Asserted the balance of the three addresses was equal to the amount of tokens sent to them with the `balanceOf` function in the token contract.  
+- Asserted the balance of the three addresses is equal to the amount of tokens sent to them with the `balanceOf` function in the token contract.  
 
 ![image](image/setUp-function.png)  
 
 * **testConfirmActiveFork()**:  
 With the `vm.activeFork` we confirmed that alfajoresFork is active.  
 
-![image](image/testActiveFork.png) 
+![image](image/test_ActiveFork.png) 
 
 * **testSave()**:  
 With addresses `Alice` and `Dilshad` pranked, we:  
@@ -400,13 +408,13 @@ With addresses `Alice` and `Dilshad` pranked, we:
 
 ![image](image/testSave.png)  
 
-* **ttestFailaddSavingAttempt()**:  
-Since the logic in `addSaving()` does not allow users can add saving without having saved with save() first, we tested to make sure attempting to do that failed.  
+* **testFailAddSavingAttempt()**:  
+Since the logic in `addSaving()` does not allow users can add saving without having saved with the save() function first, we tested to make sure attempting to do that failed.  
 
-![image](image/testAddSaving.png) 
+![image](image/testFailAddSaving.png) 
 
 * **testFailWithdrawBeforeTime()**:  
-Pranked address Dilshad to save and withdraw tokens before savingduration elapses.
+Pranked address Dilshad to save and withdraw the saved tokens before saving duration elapses.
 
 ![image](image/testFailWithdrawBeforeTime.png)  
 

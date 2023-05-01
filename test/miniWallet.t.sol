@@ -66,7 +66,7 @@ contract CounterTest is Test {
 
  /* Attempt to addSaving() without any previous saving on address Shahad. 
 This test is expected to fail because Shahad hasn't used the saved tokens before. */
-    function testFailaddSavingAttempt() public {
+    function testFailAddSavingAttempt() public {
         vm.startPrank(Shahad);
         Token.approve(address(miniWallet), 800);
         miniWallet.addSaving(300);
