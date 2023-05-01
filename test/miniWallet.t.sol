@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
 import "forge-std/Test.sol";
@@ -11,6 +11,7 @@ contract CounterTest is Test {
     address Alice;
     address Dilshad;
     address Shahad;
+    address Joy;
     IERC20 Token = IERC20 (0x865b5751bcDe7E06030670b4d9D27651A25f2fCF);
     uint256 alfajoresFork;
     string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
@@ -23,6 +24,7 @@ contract CounterTest is Test {
         Alice = 0xE7818b0e067Bc205B0a2A3055818083D13F11aA8;
         Dilshad = 0x085Ee67132Ec4297b85ed5d1b4C65424D36fDA7d;
         Shahad = 0xD06e61faEB0d8a7B0835C0F3C127aED98908a687;
+        Joy = 0x4e9002224006AD3eb8b8AD20F74b0Dcf53CCFdB3;
         address holder = 0x049C780d7fa94AA70194eFC88ee109781eaeE1C2;
         uint HolderBalance = Token.balanceOf(holder); 
         emit log_uint(HolderBalance);
@@ -52,7 +54,6 @@ contract CounterTest is Test {
         miniWallet.viewWalletBalance();
         vm.stopPrank();
 
-
 // Prank Dilshad address to test save(), viewWalletBalance(), and addSaving functions
         vm.startPrank(Dilshad);
         Token.approve(address(miniWallet), 800);
@@ -63,14 +64,12 @@ contract CounterTest is Test {
         vm.stopPrank();
     }
 
-// Attempt to addSaving() without any previous saving on address Shahad. 
-//This test is expected to fail because Shahad hasn't used the saved tokens before.
-
+ /* Attempt to addSaving() without any previous saving on address Shahad. 
+This test is expected to fail because Shahad hasn't used the saved tokens before. */
     function testFailaddSavingAttempt() public {
         vm.startPrank(Shahad);
         Token.approve(address(miniWallet), 800);
         miniWallet.addSaving(300);
-        miniWallet.viewWalletBalance();
        vm.stopPrank();
     }
 
@@ -79,6 +78,7 @@ contract CounterTest is Test {
        vm.startPrank(Dilshad);
        Token.approve(address(miniWallet), 800);
        miniWallet.save(300, 2);
+       miniWallet.viewWalletBalance();
        miniWallet.withdraw(300);
        vm.stopPrank();
     }
@@ -90,4 +90,11 @@ contract CounterTest is Test {
        vm.stopPrank();
     }
   
+    /* Test with address that does not have test tokens */
+    function testFailNoTokenSaveAttempt() public {
+        vm.startPrank(Joy);
+        Token.approve(address(miniWallet), 600);
+        miniWallet.save(200, 2);
+        vm.stopPrank();
+    }
     }
