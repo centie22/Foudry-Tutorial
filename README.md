@@ -5,27 +5,29 @@ Some of us smart contract developers danced the bhangra when Foundry was release
 **Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
 
 In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. Forking mainnet or testnet is the process of copying the network's current or previous state and bringing it into your local development network. While the remaining transactions or blocks are mined and added to your personal development network, you will be able to access the deployed smart contracts in the mainnet for testing purposes. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network.  
-I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.
+I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.  
 
+## Objective
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
 
 ## Table Of Contents 
-* [Introduction](#introduction).
-- [Prerequisites](#prerequisites).
-- [Requirements](#requirements).
-- [Getting Started](#getting-started).
-* [Smart Contract](#smart-contract).
-    * [Savings smart contract](#savings-smart-contract).
-    * [Token smart contract](#token-smart-contract).
--  [Code](#code).
-    * [savings.sol](#savingssol).
-    * [token.sol](#tokensol).
-- [Smart Contract Testing](#smart-contract-testing).
-    * [Fork Celo alfajores testnet](#fork-celo-alfajores-testnet).
-    * [Test Code Explained](#test-code-explained).
--  [Deploy smart contract](#deploy-smart-contract).
-* [Conclusion](#conclusion).
-* [References](#references).
+- [Introduction](#introduction)
+- [Objective](#objective)
+- [Prerequisites](#prerequisites)
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+* [Smart Contract](#smart-contract)
+    * [Savings smart contract](#savings-smart-contract)
+    * [Token smart contract](#token-smart-contract)
+-  [Code](#code)
+    * [savings.sol](#savingssol)
+    * [token.sol](#tokensol)
+- [Smart Contract Testing](#smart-contract-testing)
+    * [Fork Celo alfajores testnet](#fork-celo-alfajores-testnet)
+    * [Test Code Explained](#test-code-explained)
+-  [Deploy smart contract](#deploy-smart-contract)
+* [Conclusion](#conclusion)
+* [References](#references)
 
 ## Prerequisites
  This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit.  
@@ -94,28 +96,8 @@ Now that we have our project all set up, let us go through the smart contracts a
 ## Smart Contract
 We are working with the two smart contracts in the `src` folder, `savings.sol` and `token.sol`. Let's briefly examine these smart contracts.
 
-### Savings Smart Contract 
-The savings `MiniWallet` smart contract is a simple contract that allows users save ERC20 `testToken` over a period of time. It has the following functions:  
+### Savings Smart Contract  
 
-* **save()**:  
-The save function allows users to begin saving on MiniWallet. It takes in two parameters, `_amount`, which is the number of tokens the user wants to save and `_savingDurationInWeeks`, which is the number of weeks the user wants to save for. When a user successfully saves test tokens, a wallet is created that contains all the user's savings details.  
-
-* **addSaving()**:  
-This function allows users add more tokens to their savings on the contract. It takes in the `_amount` parameter.  The logic in this function does not allow users use addSavings() if they have not saved tokens before with the save() function.  
-
-* **withdraw()**:  
-The witdraw function is the function that allows users withdraw some amount of their savings after the savings period has elapsed. It takes in the `_amount` parameter, which is the amount of tokens the user wants to withdraw from their savings.  
-
-* **viewWalletBalance()**:  
-Function that returns a user's wallet balance. It is a view functions and takes in no parameters.  
-
-* **activateSaving()**:  
-This is an admin restricted function that the owner uses to activate and deactivate savingActive. Users cannot save on MiniWallet if `savingActive` is false.  
-
-### Token Smart Contract  
-The `testToken` smart contract is the ERC20 token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in our test code while testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
-
-## Code
 #### savings.sol
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -142,7 +124,7 @@ modifier adminRestricted() {
     _;
 }
 
-event Saved(uint amount, uint savningDuration, string message);
+event Saved(uint amount, uint savingDuration, string message);
 event SavingUpdated(uint amount, string message);
 
 constructor (ERC20 _savingToken){
@@ -152,7 +134,6 @@ constructor (ERC20 _savingToken){
 
 
 function save(uint256 _amount, uint256 savingDurationInWeeks) external {
-    require(msg.sender != address(0), "zero address can't call function");
     require(savingActive == true, "Saving inactive");
     require(_amount > 0, "Can't save zero tokens");
     require(savingDurationInWeeks > 1, "Saving duration must be more than 1 week");
@@ -210,7 +191,26 @@ function activateSaving(bool saveStatus) external adminRestricted{
 
 
 }
-```
+```  
+
+The savings `MiniWallet` smart contract is a simple contract that allows users save ERC20 `testToken` over a period of time. It has the following functions:  
+
+* **save()**:  
+The save function allows users to begin saving on MiniWallet. It takes in two parameters, `_amount`, which is the number of tokens the user wants to save and `_savingDurationInWeeks`, which is the number of weeks the user wants to save for. When a user successfully saves test tokens, a wallet is created that contains all the user's savings details.  
+
+* **addSaving()**:  
+This function allows users add more tokens to their savings on the contract. It takes in the `_amount` parameter.  The logic in this function does not allow users use addSavings() if they have not saved tokens before with the save() function.  
+
+* **withdraw()**:  
+The witdraw function is the function that allows users withdraw some amount of their savings after the savings period has elapsed. It takes in the `_amount` parameter, which is the amount of tokens the user wants to withdraw from their savings.  
+
+* **viewWalletBalance()**:  
+Function that returns a user's wallet balance. It is a view functions and takes in no parameters.  
+
+* **activateSaving()**:  
+This is an admin restricted function that the owner uses to activate and deactivate savingActive. Users cannot save on MiniWallet if `savingActive` is false.  
+
+### Token Smart Contract  
 
 #### token.sol
 ```solidity
@@ -225,7 +225,9 @@ contract token is ERC20("testToken", "tT") {
         _mint(msg.sender, 1000000000e18);
     } 
 }
-```
+```  
+
+The `testToken` smart contract is the ERC20 token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in our test code while testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
 
 ## Smart Contract Testing
 We have the test code for the savings smart contract in written in the `miniWallet.t.sol` file in test folder.  
