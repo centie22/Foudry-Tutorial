@@ -14,7 +14,7 @@
 		- [Token Smart Contract](#token-smart-contract)
 			- [Token.sol](#tokensol)
 	- [Smart Contract Testing](#smart-contract-testing)
-			- [Test Code -\> MiniWallet.sol](#test-code---miniwalletsol)
+		- [Test Code -\> MiniWallet.sol](#test-code---miniwalletsol)
 		- [Fork the Celo Alfajores Testnet](#fork-the-celo-alfajores-testnet)
 		- [Test Code Explained](#test-code-explained)
 	- [Deploy Smart Contract](#deploy-smart-contract)
@@ -236,7 +236,7 @@ The `testToken` smart contract is the ERC20 token used in the savings smart cont
 ## Smart Contract Testing
 We have the test code for the savings smart contract written in the `miniWallet.t.sol` file in the test folder.  
 
-#### Test Code -> MiniWallet.sol
+### Test Code -> MiniWallet.sol
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
