@@ -16,7 +16,7 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 - [Prerequisites](#prerequisites)
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
-* [Smart Contract](#smart-contract)
+- [Smart Contract](#smart-contract)
     * [Savings smart contract](#savings-smart-contract)
     * [Token smart contract](#token-smart-contract)
 - [Smart Contract Testing](#smart-contract-testing)
@@ -330,6 +330,7 @@ This test is expected to fail because Shahad hasn't used the saved tokens before
         miniWallet.save(200, 2);
         vm.stopPrank();
     }
+    
     }
 ```
 
