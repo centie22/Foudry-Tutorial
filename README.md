@@ -1,11 +1,7 @@
 # Foundry: Deploying And Forking Mainnet With Foundry 
 
 ## Introduction
-Some of us smart contract developers danced the bhangra when Foundry was released.
-**Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
-
-In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. Forking mainnet or testnet is the process of copying the network's current or previous state and bringing it into your local development network. While the remaining transactions or blocks are mined and added to your personal development network, you will be able to access the deployed smart contracts in the mainnet for testing purposes. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network.  
-I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.  
+Some people who create computer programs that work on a special type of network were very happy when a new tool called Foundry was made available. Foundry makes it easier to create and test these programs, and you can use a language called Solidity instead of a different one called Javascript. In this lesson, I will teach you how to use Foundry to make your own copy of a network that other people use, so you can test your programs without affecting anyone else. By doing this, we can find and fix mistakes before we put our programs on the real network. I made this lesson because there aren't many other lessons out there that show how to do this with Foundry.
 
 ## Objective
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
@@ -14,7 +10,7 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 - [Introduction](#introduction)
 - [Objective](#objective)
 - [Prerequisites](#prerequisites)
-- [Requirements](#requirements)
+- [Tools used in this course](#tools-used)
 - [Getting Started](#getting-started)
 - [Smart Contract](#smart-contract)
     * [Savings smart contract](#savings-smart-contract)
@@ -24,17 +20,18 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
     * [Test Code Explained](#test-code-explained)
 -  [Deploy smart contract](#deploy-smart-contract)
 * [Conclusion](#conclusion)
-* [References](#references)
+* [References To Technologies Used](#references)
 
 ## Prerequisites
- This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit.  
+ By following this tutorial, you will learn how to use the Foundry toolkit to deploy a smart contract and copy the current or previous state of a blockchain network (mainnet or testnet) to your local development environment, a process known as forking. This will allow you to test and debug your smart contracts in a safe and controlled environment, simulating the behavior of the live blockchain network.
+ 
  Before going ahead with the tutorial, it is important for you to have a good understanding of: 
 * [solidity](https://soliditylang.org),
 * [smart contracts](https://www.ibm.com/topics/smart-contracts), 
 * [The EVM](https://ethereum.org/en/developers/docs/evm/), and
 * [Foundry](#references). 
 
-## Requirements
+## Tools Used In This Course
 * [Infura account](https://app.infura.io/dashboard):  
 Infura is a node provider that allows developers to plug into blockchains such as Ethereum, Avalanche, and Celo via Infura self-managed nodes. This saves developers the time, money and work, which would they would have to put in to run their own node.  
 * [Foundry](https://book.getfoundry.sh/getting-started/installation):  
@@ -91,7 +88,7 @@ code .
 Now that we have our project all set up, let us go through the smart contracts and their functions.  
 
 ## Smart Contract
-We are working with the two smart contracts in the `src` folder, `savings.sol` and `token.sol`. Let's briefly examine these smart contracts.
+For our DIY course, we will be using two smart contracts: savings.sol and token.sol, both located in the src folder. Let's take a quick look at these contracts to understand how they work.
 
 ### Savings Smart Contract  
 
@@ -441,15 +438,14 @@ Our contract is successfully deployed to the [Celo Alfajores Blockchain](https:/
 ![image](image/terminal_deploy.png)
 
 ## Conclusion
-Foundry is an innovative toolkit for building and deploying decentralized applications on the blockchain. It simplifies the process of writing tests and deploying smart contracts by allowing you to write tests in Solidity. Forking a blockchain network is an excellent way to test and debug smart contracts in a local environment.
+Foundry, an innovative toolkit for building and deploying decentralized applications on the blockchain. With Foundry, you can simplify the process of writing tests and deploying smart contracts by writing tests in Solidity.
 
-In this tutorial, we have covered how to deploy a smart contract and fork the Celo Alfajores testnet using Foundry.
+One great way to test and debug smart contracts in a local environment is to fork a blockchain network. In this tutorial, we'll cover how to deploy a smart contract and fork the Celo Alfajores testnet using Foundry.
 
-It is important to have a good understanding of Solidity, smart contracts, and the EVM before attempting to use Foundry. This tutorial is ideal for developers with some level of experience using Foundry.
+Before diving into using Foundry, it's important to have a good understanding of Solidity, smart contracts, and the EVM. This tutorial is perfect for developers who have some experience using Foundry.
 
-In conclusion, Foundry is a valuable toolkit for developing decentralized applications, and it is worth exploring for everyone smart contract developer.
-
-## References
+In conclusion, Foundry is a valuable toolkit that can help you develop decentralized applications with ease. 
+## References to technologies used
 * [Foundry Book](https://book.getfoundry.sh).
 * [Celo Docs for developers](https://docs.celo.org/developer).
 * [Foundry Tutorial Videos](https://www.youtube.com/playlist?list=PLO5VPQH6OWdUrKEWPF07CSuVm3T99DQki).
