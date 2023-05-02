@@ -28,7 +28,7 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 
 ## Prerequisites
  This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit.  
- Before going ahead with the tutorial, it is important for you to have a good understanding of 
+ Before going ahead with the tutorial, it is important for you to have a good understanding of: 
 * [solidity](https://soliditylang.org),
 * [smart contracts](https://www.ibm.com/topics/smart-contracts), 
 * [The EVM](https://ethereum.org/en/developers/docs/evm/), and
