@@ -1,8 +1,32 @@
-# Foundry: Deploying And Forking Mainnet With Foundry 
+# Foundry: Deploying and Forking the Celo Mainnet With Foundry 
+
+## Table Of Contents 
+- [Foundry: Deploying and Forking the Celo Mainnet With Foundry](#foundry-deploying-and-forking-the-celo-mainnet-with-foundry)
+  - [Table Of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Objective](#objective)
+  - [Prerequisites](#prerequisites)
+  - [Requirements](#requirements)
+  - [Getting Started](#getting-started)
+  - [Smart Contract](#smart-contract)
+    - [Savings Smart Contract](#savings-smart-contract)
+      - [Savings.sol](#savingssol)
+    - [Token Smart Contract](#token-smart-contract)
+      - [Token.sol](#tokensol)
+  - [Smart Contract Testing](#smart-contract-testing)
+      - [Test Code -\> MiniWallet.sol](#test-code---miniwalletsol)
+    - [Fork the Celo Alfajores Testnet](#fork-the-celo-alfajores-testnet)
+    - [Test Code Explained](#test-code-explained)
+  - [Deploy Smart Contract](#deploy-smart-contract)
+  - [Conclusion](#conclusion)
+  - [References](#references)
+* [Conclusion](#conclusion)
+* [References](#references)
+
 
 ## Introduction
 Some of us smart contract developers danced the bhangra when Foundry was released.
-**Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
+**Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (dApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
 
 In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. Forking mainnet or testnet is the process of copying the network's current or previous state and bringing it into your local development network. While the remaining transactions or blocks are mined and added to your personal development network, you will be able to access the deployed smart contracts in the mainnet for testing purposes. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network.  
 I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.  
@@ -10,21 +34,6 @@ I created this lesson because there are surprisingly few resources available onl
 ## Objective
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
 
-## Table Of Contents 
-- [Introduction](#introduction)
-- [Objective](#objective)
-- [Prerequisites](#prerequisites)
-- [Requirements](#requirements)
-- [Getting Started](#getting-started)
-- [Smart Contract](#smart-contract)
-    * [Savings smart contract](#savings-smart-contract)
-    * [Token smart contract](#token-smart-contract)
-- [Smart Contract Testing](#smart-contract-testing)
-    * [Fork Celo alfajores testnet](#fork-celo-alfajores-testnet)
-    * [Test Code Explained](#test-code-explained)
--  [Deploy smart contract](#deploy-smart-contract)
-* [Conclusion](#conclusion)
-* [References](#references)
 
 ## Prerequisites
  This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit.  
@@ -43,7 +52,7 @@ It is important to have foundry installed on your computer.
 Have an Integrated Development Environment of your choice installed. We will be using `Visual Studio Code [VSCode]` for this tutorial.
 
 
-### Getting Started
+## Getting Started
 Let us go through steps to seeting up our project.  
 - **Create a project folder**.  
 In your terminal, run the following command to create a new folder:  
@@ -95,7 +104,7 @@ We are working with the two smart contracts in the `src` folder, `savings.sol` a
 
 ### Savings Smart Contract  
 
-#### savings.sol
+#### Savings.sol
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
@@ -209,7 +218,7 @@ This is an admin restricted function that the owner uses to activate and deactiv
 
 ### Token Smart Contract  
 
-#### token.sol
+#### Token.sol
 ```solidity
 // SPDX-License-Identifier: MIT
 
@@ -229,7 +238,7 @@ The `testToken` smart contract is the ERC20 token used in the savings smart cont
 ## Smart Contract Testing
 We have the test code for the savings smart contract in written in the `miniWallet.t.sol` file in test folder.  
 
-#### Test code -> miniWallet.t.sol
+#### Test Code -> MiniWallet.sol
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
@@ -336,26 +345,26 @@ This test is expected to fail because Shahad hasn't used the saved tokens before
 
 We will now go over the forking procedure for the Celo Alfajores testnet before describing the test functions.
 
-### Fork Celo Alfajores testnet
+### Fork the Celo Alfajores Testnet
 There is a tonne going on in the test code, notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Foundry "forge" offers two methods for supporting testing in a forked environment:
 - The Forking Mode.
 - Forking Cheatcodes.  
 The `Forking Cheatcodes` method will be used in this tutorial. You can create, choose, and manage several forks in your solidity test code using this technique.
 
 Let's go through the steps:
-1. #### Setting up your `.env` file.
+1. #### Setting up Your `.env` File
 In your `.env` file, set the variable
 ```
 CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]'
 ```
-2. #### Access the .env file variable.
+2. #### Access the .env File Variable
 After setting up your `.env` file, you can now go over to the `miniWallet.t.sol` test file where you will be needing the `CELO_RPC_URL` variable just created. We can access the variable in `.env` file with **`vm.envString(VariableName)`**. In our test code, we will have
 ```solidity
 string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
 ```
 as a state variable.
 
-3. #### Create Alfajores testnet fork
+3. #### Create Alfajores Testnet Fork
 In order to make the forked network available in each test, we will create the fork in the `setUp()` function. Let us take this one step at a time:
 
 * **Create a variable in state that will be a unique identifier for our fork**
@@ -434,7 +443,7 @@ Now that we have forked the Alfajores testnet and written our contract testcode,
 
 Everything works just fine! Now we can go ahead to deploy our `MiniWallet` smart contract.
 
-## Deploy smart contract
+## Deploy Smart Contract
 With the `forge create` command, Foundry makes it easy to deploy smart contracts on to any blockchain. Let's deploy our contract:
 
 ```
