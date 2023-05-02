@@ -1,21 +1,23 @@
-# Foundry: Deploying And Forking Mainnet With Foundry 
+# Foundry: Deploying and Forking Mainnet With Foundry -
 
-## Introduction
-Some of us smart contract developers danced the bhangra when Foundry was released.
-**Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient because it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
+## Introduction:
 
-In this tutorial, I will take you through how to deploy smart contract and fork the Celo Alfajores testnet with **Foundry**. Forking mainnet or testnet is the process of copying the network's current or previous state and bringing it into your local development network. While the remaining transactions or blocks are mined and added to your personal development network, you will be able to access the deployed smart contracts in the mainnet for testing purposes. By forking a blockchain, we can test and debug smart contracts in a local environment, which simulates the behaviour of the live blockchain network.  
-I created this lesson because there are surprisingly few resources available online that cover mainnet/testnet forking with foundry.  
+Some of us Smart Contract developers danced on bhangra when Foundry was released.
+**Foundry is a convenient and comprehensive suite of tools for building and deploying decentralized applications (DApps) on the blockchain**. It is convenient as it lets you write tests in Solidity instead of Javascript, which is the scripting and testing language of the popular Hardhat toolkit.
 
-## Objective
+In this tutorial, I will take you through how to deploy Smart Contract and fork the Celo Alfajores testnet with **Foundry**. Forking mainnet or testnet is the process of copying the network's current or previous state and bringing it into your local development network. While the remaining transactions or blocks are mined and added to your personal development network, you will be able to access the deployed Smart Contracts in the mainnet for testing purposes. By forking a blockchain, we can test and debug Smart Contracts in a local environment which simulates the behaviour of the live blockchain network.  
+I have created this lesson because there are surprisingly a very few resources available online that cover mainnet/testnet forking with foundry.  
+
+## Objectives:
+
 At the end of this tutorial, you will be able to fork mainnet or testnet for testing and deploy a smart contract using the foundry toolkit. 
 
-## Table Of Contents 
+## Table Of Contents:
 - [Introduction](#introduction)
-- [Objective](#objective)
-- [Prerequisites](#prerequisites)
+- [Objectives](#objective)
+- [Pre-requisites](#pre-requisites)
 - [Requirements](#requirements)
-- [Getting Started](#getting-started)
+- [Let's Get Started](#let's-get-started)
 - [Smart Contract](#smart-contract)
     * [Savings smart contract](#savings-smart-contract)
     * [Token smart contract](#token-smart-contract)
@@ -26,26 +28,28 @@ At the end of this tutorial, you will be able to fork mainnet or testnet for tes
 * [Conclusion](#conclusion)
 * [References](#references)
 
-## Prerequisites
- This tutorial is focused on those who have some level of experience writing smart contracts with foundry. However, if you are new to foundry, I have listed some resources in the [reference](#references) section that can help you get familiar with this toolkit.  
- Before going ahead with the tutorial, it is important for you to have a good understanding of: 
-* [solidity](https://soliditylang.org),
-* [smart contracts](https://www.ibm.com/topics/smart-contracts), 
+## Pre-requisites:
+
+This tutorial is focused on those who have some level of experience in writing Smart Contracts with Foundry. However if you are new to foundry, I have listed some of the resources in the [reference](#references) section that can help you get familiar with this toolkit.  
+Before going ahead with this tutorial, it is important for you to have a good understanding of: 
+
+* [Solidity](https://soliditylang.org),
+* [Smart Contracts](https://www.ibm.com/topics/smart-contracts), 
 * [The EVM](https://ethereum.org/en/developers/docs/evm/), and
 * [Foundry](#references). 
 
-## Requirements
+## Requirements:
+
 * [Infura account](https://app.infura.io/dashboard):  
-Infura is a node provider that allows developers to plug into blockchains such as Ethereum, Avalanche, and Celo via Infura self-managed nodes. This saves developers the time, money and work, which would they would have to put in to run their own node.  
-* [Foundry](https://book.getfoundry.sh/getting-started/installation):  
-It is important to have foundry installed on your computer.
-* [IDE](https://www.veracode.com/security/integrated-development-environment):  
-Have an Integrated Development Environment of your choice installed. We will be using `Visual Studio Code [VSCode]` for this tutorial.
+Infura is a node provider that allows developers to plug into blockchains like Ethereum, Avalanche and Celo via Infura self-managed nodes. This saves developers the time, money and work which would they would have to put in to run their own node.  
+* Install [Foundry](https://book.getfoundry.sh/getting-started/installation). 
 
+* Install [IDE](https://www.veracode.com/security/integrated-development-environment): We will be using `Visual Studio Code [VSCode](https://code.visualstudio.com/)` for this tutorial.
 
-### Getting Started
-Let us go through steps to seeting up our project.  
-- **Create a project folder**.  
+### Let's Get Started:
+Let us go through steps that are required to set up our project:  
+
+- **Create a project folder:**
 In your terminal, run the following command to create a new folder:  
 
 ```
@@ -53,141 +57,142 @@ mkdir MiniWallet
 
 ```
 
-- **Navigate into your new project folder**.  
+- **Navigate into your new project folder:**  
 
 ```
 cd MiniWallet
 
 ```  
 
-- **Clone this repository**:
-Clone this repository into your new folder  
+- **Clone this repository:**
+Clone this repository into your new folder:
 
 ```
 git clone https://github.com/centie22/Foudry-Tutorial.git
 
 ```
 
-- **Navigate into the smart contract folder**  
+- **Navigate into the smart contract folder:**  
 ```
 cd Foudry-Tutorial
 
 ```
 
-- **Install all dependencies**.
+- **Install all dependencies:**
 
 ```
 forge install
 
 ```
 
-- **Open project in IDE**.
+- **Open project in IDE:**
 
 ```
 code .
 
 ```  
 
-Now that we have our project all set up, let us go through the smart contracts and their functions.  
+Now that we have our project all set up, let us go through the Smart Ccontracts and their functions.  
 
-## Smart Contract
-We are working with the two smart contracts in the `src` folder, `savings.sol` and `token.sol`. Let's briefly examine these smart contracts.
+## Smart Contract:
+We are working with the 2 Smart Contracts in the `src` folder, `savings.sol` and `token.sol`. Let's briefly examine these Smart Contracts.
 
-### Savings Smart Contract  
+### Savings Smart Contract:
 
-#### savings.sol
+#### savings.sol:
+
 ```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+// SPDX-License-Identifier: MIT // SPDX license identifier
+pragma solidity ^0.8.7; // Solidity version pragma statement
 
-import "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
-import "lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol"; // Import the IERC20 interface from OpenZeppelin
+import "lib/openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol"; // Import the SafeERC20 library from OpenZeppelin
 
-contract MiniWallet{
-address admin;
-bool public savingActive;
-ERC20 savingToken;
+contract MiniWallet {
+    address public admin; // Public variable for the contract admin's address
+    bool public savingActive; // Public variable to indicate whether saving is active or not
+    IERC20 public savingToken; // Public variable for the saving token
 
-struct Wallet {
-    address walletOwner;
-    uint walletBalance;
-    uint savingDuration;
-}
+    struct Wallet { // Struct to store wallet information
+        address walletOwner; // Wallet owner's address
+        uint256 walletBalance; // Wallet balance
+        uint256 savingDuration; // Saving duration in weeks
+    }
 
-mapping (address => Wallet) savingWallet;
+    mapping(address => Wallet) public savingWallet; // Mapping to store wallet information for each address
 
-modifier adminRestricted() {
-    require(msg.sender == admin, "Function call is restricted to contract admin");
-    _;
-}
+    modifier onlyAdmin() { // Modifier to restrict function calls to the contract admin
+        require(msg.sender == admin, "Function call is restricted to contract admin");
+        _;
+    }
 
-event Saved(uint amount, uint savingDuration, string message);
-event SavingUpdated(uint amount, string message);
+    event Saved(uint256 amount, uint256 savingDuration, string message); // Event to emit when tokens are saved
+    event SavingUpdated(uint256 amount, string message); // Event to emit when saving is updated
 
-constructor (ERC20 _savingToken){
-    admin = msg.sender;
-    savingToken = _savingToken;
-}
+    constructor(IERC20 _savingToken) { // Constructor function to initialize the contract
+        admin = msg.sender; // Set the contract admin's address to the sender of the transaction
+        savingToken = _savingToken; // Set the saving token to the IERC20 instance passed in as a parameter
+    }
+
+    function save(uint256 _amount, uint256 savingDurationInWeeks) external { // Function to save tokens
+        require(savingActive, "Saving is not active"); // Require that saving is active
+        require(_amount > 0, "Amount must be greater than zero"); // Require that the amount is greater than zero
+        require(savingDurationInWeeks >= 1, "Saving duration must be at least 1 week"); // Require that the saving duration is at least 1 week
+        require(savingToken.balanceOf(msg.sender) >= _amount, "Insufficient token balance"); // Require that the sender has enough balance to save the requested amount
+
+        savingToken.safeTransferFrom(msg.sender, address(this), _amount); // Transfer the requested amount of tokens from the sender to the contract address
+
+        Wallet storage wallet = savingWallet[msg.sender]; // Get the wallet information for the sender
+        wallet.savingDuration = block.timestamp + (savingDurationInWeeks * 1 weeks); // Set the saving duration for the wallet to the current block timestamp plus the saving duration in weeks
+        wallet.walletOwner = msg.sender; // Set the wallet owner to the sender's address
+        wallet.walletBalance += _amount; // Add the saved amount to the wallet balance
+
+        emit Saved(_amount, savingDurationInWeeks, "Tokens saved successfully"); // Emit the Saved event with the saved amount, saving duration, and message
+    }
+
+    function addSaving(uint256 _amount) external { // Function to add more savings to an existing wallet
+        require(savingActive, "Saving is not active"); // Require that saving is active
+
+        Wallet storage wallet = savingWallet[msg.sender]; // Get the wallet information for the sender
+        require(wallet.walletBalance > 0, "You have not saved before"); // Require that the sender has saved before
+        require(_amount > 0, "Amount must be
 
 
-function save(uint256 _amount, uint256 savingDurationInWeeks) external {
-    require(savingActive == true, "Saving inactive");
-    require(_amount > 0, "Can't save zero tokens");
-    require(savingDurationInWeeks > 1, "Saving duration must be more than 1 week");
-    require(savingToken.balanceOf(msg.sender) >= _amount, "Current token balance less than _amount");
-    savingToken.transferFrom(msg.sender, address(this), _amount);
+        Wallet storage wallet = savingWallet[msg.sender];
+        require(wallet.walletBalance > 0, "You have not saved before");
+        require(_amount > 0, "Amount must be greater than zero");
+        require(savingToken.balanceOf(msg.sender) >= _amount, "Insufficient token balance");
 
-    Wallet storage wallet = savingWallet[msg.sender];
-    wallet.savingDuration = block.timestamp + (savingDurationInWeeks * 1 weeks);
-    wallet.walletOwner = msg.sender;
-    wallet.walletBalance += _amount;
+        savingToken.safeTransferFrom(msg.sender, address(this), _amount);
 
-    emit Saved(_amount, savingDurationInWeeks, "Tokens saved successfully");
-}
+        wallet.walletBalance += _amount;
 
+        emit SavingUpdated(wallet.walletBalance, "Successfully saved more tokens");
+    }
 
-function addSaving(uint256 _amount) external {
-    require(savingActive == true, "Saving inactive");
+    function withdraw(uint256 _amount) external {
+        Wallet storage wallet = savingWallet[msg.sender];
+        require(wallet.walletOwner == msg.sender, "Caller is not the wallet owner");
+        require(wallet.walletBalance >= _amount, "Insufficient balance");
 
-    Wallet storage wallet = savingWallet[msg.sender];
-    require(wallet.walletBalance > 0, "You have not saved before.");
-    require(_amount > 0, "Can't save zero tokens");
-    require(savingToken.balanceOf(msg.sender) >= _amount, "Insufficient token balance.");
+        if (block.timestamp < wallet.savingDuration) {
+            revert("Saving duration has not elapsed");
+        }
 
-    SafeERC20.safeTransferFrom(savingToken, msg.sender, address(this), _amount);
+        wallet.walletBalance -= _amount;
+        savingToken.safeTransfer(msg.sender, _amount);
+    }
 
-    wallet.walletBalance += _amount;
-    uint256 theBalance = wallet.walletBalance;
+    function viewWalletBalance() external view returns (uint256 balance) {
+        Wallet storage wallet = savingWallet[msg.sender];
+        balance = wallet.walletBalance;
+    }
 
-    emit SavingUpdated(theBalance, "Successfully saved more tokens.");
-}
-
-function withdraw(uint256 _amount) external {
-    Wallet storage wallet = savingWallet[msg.sender];
-    require(msg.sender == wallet.walletOwner, "Caller not wallet owner.");
-    require(wallet.walletBalance >= _amount, "_amount greater than balance.");
-
-    if (block.timestamp >= wallet.savingDuration) {
-        uint256 newBalance = wallet.walletBalance - _amount;
-        wallet.walletBalance = newBalance;
-        SafeERC20.safeTransfer(savingToken, msg.sender, _amount);
-    } else {
-        revert("Saving duration not elapsed");
+    function activateSaving(bool _savingActive) external onlyAdmin {
+        savingActive = _savingActive;
     }
 }
 
-function viewWalletBalance () external view returns (uint balance){
-     Wallet storage wallet = savingWallet[msg.sender];
-     balance = wallet.walletBalance;
-     return balance;
-}
-
-function activateSaving(bool saveStatus) external adminRestricted{
-    savingActive = saveStatus;
-}
-
-
-}
 ```  
 
 The savings `MiniWallet` smart contract is a simple contract that allows users save ERC20 `testToken` over a period of time. It has the following functions:  
@@ -207,9 +212,10 @@ Function that returns a user's wallet balance. It is a view functions and takes 
 * **activateSaving()**:  
 This is an admin restricted function that the owner uses to activate and deactivate savingActive. Users cannot save on MiniWallet if `savingActive` is false.  
 
-### Token Smart Contract  
+### Token Smart Contract:
 
-#### token.sol
+#### token.sol:
+
 ```solidity
 // SPDX-License-Identifier: MIT
 
@@ -224,12 +230,13 @@ contract token is ERC20("testToken", "tT") {
 }
 ```  
 
-The `testToken` smart contract is the ERC20 token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in our test code while testing our savings smart contract, we need to bring the Alfajores testnet to our local environment by forking it.
+The `testToken` smart contract is the ERC20 token used in the savings smart contract. This token has been deployed on the [Celo Alfajores chain](https://alfajores.celoscan.io/address/0x865b5751bcde7e06030670b4d9d27651a25f2fcf) and to interact with it in our test code while testing our savings Smart Contract, we need to bring the Alfajores testnet to our local environment by forking it.
 
-## Smart Contract Testing
+## Smart Contract Testing:
 We have the test code for the savings smart contract in written in the `miniWallet.t.sol` file in test folder.  
 
-#### Test code -> miniWallet.t.sol
+#### Test code -> miniWallet.t.sol:
+
 ```solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
@@ -334,53 +341,60 @@ This test is expected to fail because Shahad hasn't used the saved tokens before
     }
 ```
 
-We will now go over the forking procedure for the Celo Alfajores testnet before describing the test functions.
+We will now go over through the forking procedure for the Celo Alfajores testnet before describing the test functions.
 
-### Fork Celo Alfajores testnet
-There is a tonne going on in the test code, notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Foundry "forge" offers two methods for supporting testing in a forked environment:
+### Fork Celo Alfajores testnet:
+
+There is a lot going on in the test code notably in the `setUp()` function, but our focus in this section is on the procedures involved in forking the Celo Alfajores testnet. Foundry "forge" offers two methods for supporting testing in a forked environment:
 - The Forking Mode.
 - Forking Cheatcodes.  
 The `Forking Cheatcodes` method will be used in this tutorial. You can create, choose, and manage several forks in your solidity test code using this technique.
 
 Let's go through the steps:
-1. #### Setting up your `.env` file.
+1. #### Setting up your `.env` file:
+
 In your `.env` file, set the variable
 ```
 CELO_RPC_URL= 'https://celo-alfajores.infura.io/v3/[INFURA_KEY]'
 ```
-2. #### Access the .env file variable.
-After setting up your `.env` file, you can now go over to the `miniWallet.t.sol` test file where you will be needing the `CELO_RPC_URL` variable just created. We can access the variable in `.env` file with **`vm.envString(VariableName)`**. In our test code, we will have
+2. #### Access the .env file variable:
+
+After setting up your `.env` file, you can now go over to the `miniWallet.t.sol` test file where you will be needing the `CELO_RPC_URL` variable just created. We can access the variable in `.env` file with **`vm.envString(VariableName)`**. In our test code, we will have as a state variable:
 ```solidity
 string CELO_RPC_URL = vm.envString("CELO_RPC_URL");
 ```
-as a state variable.
 
-3. #### Create Alfajores testnet fork
+3. #### Create Alfajores testnet fork:
+
 In order to make the forked network available in each test, we will create the fork in the `setUp()` function. Let us take this one step at a time:
 
-* **Create a variable in state that will be a unique identifier for our fork**
+* **Create a variable in state that will be a unique identifier for our fork:**
 ```solidity
 uint256 alfajoresFork;
 ```
-* **In `setUp()`, assign this variable**.
+* **In `setUp()`, assign this variable:**
 ```solidity
     alfajoresFork = vm.createFork(CELO_RPC_URL);
 ```
 `createFork` is a cheatcode that creates forks. Hence, we just created the alfajores fork in our solidity code with it.
 
-* **Enable the created fork**.
+* **Enable the created fork:**
 ```solidity
         vm.selectFork(alfajoresFork);
 ```
 `selectFork` is the cheatcode that is used to enable a created fork. Since alfajoresFork is the fork just created and we want to interact with, we get it running in our local environment with `selectFork`.
 
 > We can run this three step process in one line of code:
-> ```solidity
-> uint256 alfajoresFork = vm.createSelectFork(CELO_RPC_URL);
-> ```
-> This strategy is suitable when forking just one network. However, the approach described in this tutorial is the best one to utilise if you plan to create and use several forks.  
 
-### Test Code Explained  
+```solidity
+ uint256 alfajoresFork = vm.createSelectFork(CELO_RPC_URL);
+ 
+ ```
+ 
+ This strategy is suitable when forking just one network. However, the approach described in this tutorial is the best one to utilise if you plan to create and use several forks.  
+
+### Test Code Explained:
+
 Now that we have gone through the steps to forking the testnet we want to interact with, let's go through the functions in the test code.  
 
 * **setUp()**:  
@@ -434,7 +448,7 @@ Now that we have forked the Alfajores testnet and written our contract testcode,
 
 Everything works just fine! Now we can go ahead to deploy our `MiniWallet` smart contract.
 
-## Deploy smart contract
+## Deploy Smart Contract:
 With the `forge create` command, Foundry makes it easy to deploy smart contracts on to any blockchain. Let's deploy our contract:
 
 ```
@@ -445,16 +459,16 @@ Our contract is successfully deployed to the [Celo Alfajores Blockchain](https:/
 
 ![image](image/terminal_deploy.png)
 
-## Conclusion
-Foundry is an innovative toolkit for building and deploying decentralized applications on the blockchain. It simplifies the process of writing tests and deploying smart contracts by allowing you to write tests in Solidity. Forking a blockchain network is an excellent way to test and debug smart contracts in a local environment.
+## Conclusion:
 
-In this tutorial, we have covered how to deploy a smart contract and fork the Celo Alfajores testnet using Foundry.
+Therefore, foundry is an innovative toolkit used for building and deploying decentralized applications on the blockchain. It simplifies the process of writing tests and deploying Smart Contracts by allowing you to write tests in Solidity. Forking a blockchain network is an excellent way to test and debug smart contracts in a local environment.
 
-It is important to have a good understanding of Solidity, smart contracts, and the EVM before attempting to use Foundry. This tutorial is ideal for developers with some level of experience using Foundry.
+In this tutorial, we have covered how to deploy a Smart Contract and fork the Celo Alfajores testnet using Foundry.
 
-In conclusion, Foundry is a valuable toolkit for developing decentralized applications, and it is worth exploring for everyone smart contract developer.
+It is important to have a good understanding of Solidity, smart contracts and EVM before attempting to use Foundry. This tutorial is ideal for developers with some level of experience using Foundry.
 
-## References
+## References:
+
 * [Foundry Book](https://book.getfoundry.sh).
 * [Celo Docs for developers](https://docs.celo.org/developer).
 * [Foundry Tutorial Videos](https://www.youtube.com/playlist?list=PLO5VPQH6OWdUrKEWPF07CSuVm3T99DQki).
