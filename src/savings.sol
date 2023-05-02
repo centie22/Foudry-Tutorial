@@ -66,23 +66,20 @@ function withdraw(uint256 _amount) external {
     Wallet storage wallet = savingWallet[msg.sender];
     require(msg.sender == wallet.walletOwner, "Caller not wallet owner.");
     require(wallet.walletBalance >= _amount, "_amount greater than balance.");
+    require(block.timestamp >= wallet.savingDuration, "Saving duration not elapsed");
 
-    if (block.timestamp >= wallet.savingDuration) {
-        uint256 newBalance = wallet.walletBalance - _amount;
-        wallet.walletBalance = newBalance;
-        SafeERC20.safeTransfer(savingToken, msg.sender, _amount);
-    } else {
-        revert("Saving duration not elapsed");
-    }
+    uint256 newBalance = wallet.walletBalance - _amount;
+    wallet.walletBalance = newBalance;
+    SafeERC20.safeTransfer(savingToken, msg.sender, _amount);
 }
 
 function viewWalletBalance () external view returns (uint balance){
      Wallet storage wallet = savingWallet[msg.sender];
-     balance = wallet.walletBalance;
-     return balance;
+     return wallet.walletBalance;
 }
 
 function activateSaving(bool saveStatus) external adminRestricted{
+    require(saveStatus != savingActive, "Save status is already set to this value.");
     savingActive = saveStatus;
 }
 
