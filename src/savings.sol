@@ -22,7 +22,7 @@ modifier adminRestricted() {
     _;
 }
 
-event Saved(uint amount, uint savningDuration, string message);
+event Saved(uint amount, uint savingDuration, string message);
 event SavingUpdated(uint amount, string message);
 
 constructor (ERC20 _savingToken){
@@ -32,14 +32,12 @@ constructor (ERC20 _savingToken){
 
 
 function save(uint256 _amount, uint256 savingDurationInWeeks) external {
-    require(msg.sender != address(0), "zero address can't call function");
     require(savingActive == true, "Saving inactive");
     require(_amount > 0, "Can't save zero tokens");
     require(savingDurationInWeeks > 1, "Saving duration must be more than 1 week");
     require(savingToken.balanceOf(msg.sender) >= _amount, "Current token balance less than _amount");
-    savingToken.transferFrom(msg.sender, address(this), _amount);
-
     Wallet storage wallet = savingWallet[msg.sender];
+    savingToken.transferFrom(msg.sender, address(this), _amount);
     wallet.savingDuration = block.timestamp + (savingDurationInWeeks * 1 weeks);
     wallet.walletOwner = msg.sender;
     wallet.walletBalance += _amount;
